@@ -2,30 +2,13 @@
 
 namespace App\Models;
 
-use PDO;
+use Illuminate\Database\Eloquent\Model;
 
-class Usuario {
-    public $idUsuario;
-    public $Nombre;
-    public $Documento;
-    public $Pasaporte;
-    public $Nacionalidad;
-    public $Email;
-    public $Telefono;
+class Usuario extends Model {
+    protected $table = 'Usuarios';
+    protected $primaryKey = 'idUsuario';
 
-    public function save() {
-        $db = Database::getConnection();
-        $stmt = $db->prepare("
-            INSERT INTO Usuarios (Nombre, Documento, Pasaporte, Nacionalidad, Email, Telefono)
-            VALUES (:Nombre, :Documento, :Pasaporte, :Nacionalidad, :Email, :Telefono)
-        ");
-        $stmt->execute([
-            ':Nombre' => $this->Nombre,
-            ':Documento' => $this->Documento,
-            ':Pasaporte' => $this->Pasaporte,
-            ':Nacionalidad' => $this->Nacionalidad,
-            ':Email' => $this->Email,
-            ':Telefono' => $this->Telefono
-        ]);
-    }
+    protected $fillable = [
+        'Nombre', 'Documento', 'Pasaporte', 'Nacionalidad', 'Email', 'Telefono'
+    ];
 }

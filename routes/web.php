@@ -1,34 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\HabitacionesController;
 use App\Http\Controllers\ReservasController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\UsuarioController;
-//no se si es necesario por tantos use controller
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-$router = new Router($requestUri, $method);
 
-$router->addRoute('/', [HabitacionesController::class, 'index']);
-$router->addRoute('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles']);
-$router->addRoute('/usuarios/crear', [UsuarioController::class, 'create']);
-$router->addRoute('/usuarios/store', [UsuarioController::class, 'store']);
-$router->addRoute('/reservas/crear', [ReservasController::class, 'create']);
-$router->addRoute('/reservas/store', [ReservasController::class, 'store']);
-$router->addRoute('/reservas', [ReservasController::class, 'index']);
+Route::get('/', [HabitacionesController::class, 'index']);
+Route::post('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles']);
+Route::get('/reservas/crear', [ReservasController::class, 'create']);
+Route::post('/reservas/store', [ReservasController::class, 'store']);
+Route::get('/reservas', [ReservasController::class, 'index']);
+Route::get('/reservas', [ReservaController::class, 'index']);
+Route::get('/reservas/crear', [ReservaController::class, 'create']);
+Route::post('/reservas/crear', [ReservaController::class, 'create']);
+Route::post('/reservas', [ReservaController::class, 'store']);
 
-$router->dispatch();
+Route::get('/', [HabitacionesController::class, 'index']);
+Route::get('/habitaciones', [HabitacionesController::class, 'index']);
+Route::post('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles']);
+Route::get('/habitaciones/{id}', [HabitacionesController::class, 'show']);
 
-/*Route::get('/', function () {
-    return view('nuevo');
-})*/
-;
+Route::get('/usuarios', [UsuarioController::class, 'index']);
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
+
+Route::post('/reservas', [ReservaController::class, 'store']);

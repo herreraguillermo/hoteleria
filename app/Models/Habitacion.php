@@ -2,33 +2,24 @@
 
 namespace App\Models;
 
-use PDO;
+use Illuminate\Database\Eloquent\Model;
+use DB;
 
-class Habitacion {
-    public $idHabitacion;
-    public $Numero;
-    public $Precio;
-    public $Capacidad;
-    public $Clase;
-
-    public static function all() {
-        $db = Database::getConnection();
-        $stmt = $db->query("SELECT * FROM Habitaciones");
-        return $stmt->fetchAll(PDO::FETCH_CLASS, self::class);
-    }
+class Habitacion extends Model {
+    protected $table = 'Habitaciones';
+    protected $primaryKey = 'idHabitacion';
 
     public static function disponibles($fechaInicio, $fechaFin, $ocupantes) {
-        $db = Database::getConnection();
-        $stmt = $db->prepare("
-            SELECT * FROM Habitaciones h
-            WHERE h.Capacidad >= :ocupantes
-            AND h.idHabitacion NOT IN (
-                SELECT r.idHabitacion FROM Reservas r
-                WHERE r.Fecha_checkin < :fechaFin
-                AND r.Fecha_checkout > :fechaInicio
-            )
-        ");
-        $stmt->execute([':ocupantes' => $ocupantes, ':fechaInicio' => $fechaInicio, ':fechaFin' => $fechaFin]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, self::class);
+        $habitaciones = DB::table('Habitaciones')
+            ->select('Habitaciones.idHabitacion', 'Habitaciones.Numero', 'Habitaciones.Precio', 'Habitaciones.Capacidad', 'Habitaciones.Clase')
+            ->leftJoin('Disponibilidad', 'Habitaciones.idHabitacion', '=', 'Disponibilidad.idHabitacion')
+            ->where('Habitaciones.Capacidad', '>=', $ocupantes)
+            ->whereBetween('Disponibilidad.Fecha', [$fechaInicio, $fechaFin])
+            ->where('Disponibilidad.Disponible', true)
+            ->groupBy('Habitaciones.idHabitacion', 'Habitaciones.Numero', 'Habitaciones.Precio', 'Habitaciones.Capacidad', 'Habitaciones.Clase')
+            ->havingRaw('COUNT(Disponibilidad.Fecha) = DATEDIFF(?, ?) + 1', [$fechaFin, $fechaInicio])
+            ->get();
+
+        return $habitaciones;
     }
 }

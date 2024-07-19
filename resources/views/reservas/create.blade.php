@@ -5,7 +5,8 @@
 </head>
 <body>
     <h1>Crear Reserva</h1>
-    <form action="/reservas/store" method="POST">
+    <form action="{{ url('/reservas/store') }}" method="POST">
+        @csrf
         Usuario ID: <input type="text" name="idUsuario"><br>
         Habitación ID: <input type="text" name="idHabitacion"><br>
         Fecha de Inicio: <input type="date" name="Fecha_checkin"><br>

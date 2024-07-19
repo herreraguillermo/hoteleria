@@ -1,5 +1,3 @@
-<p>contenido en public/index.php , pero al tratarse de mvc el diseño no ira aqui, podria ir un nav aca por ejemplo.</p>
-
 <?php
 
 use Illuminate\Contracts\Http\Kernel;
@@ -54,3 +52,5 @@ $response = $kernel->handle(
 )->send();
 
 $kernel->terminate($request, $response);
+
+

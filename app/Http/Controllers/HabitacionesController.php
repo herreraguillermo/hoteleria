@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Habitacion;
 
-class HabitacionesController {
+class HabitacionesController extends Controller {
     public function index() {
-        $habitaciones = Habitacion::all();
-        include __DIR__ . '/../Views/habitaciones/index.php';
+        return view('habitaciones.index');
     }
 
-    public function disponibles($fechaInicio, $fechaFin, $ocupantes) {
+    public function disponibles(Request $request) {
+        $fechaInicio = $request->input('fechaInicio');
+        $fechaFin = $request->input('fechaFin');
+        $ocupantes = $request->input('ocupantes');
         $habitaciones = Habitacion::disponibles($fechaInicio, $fechaFin, $ocupantes);
-        include __DIR__ . '/../Views/habitaciones/disponibles.php';
+        return view('habitaciones.disponibles', ['habitaciones' => $habitaciones]);
     }
 }

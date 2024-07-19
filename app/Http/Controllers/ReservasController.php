@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Reserva;
 
-class ReservasController {
+class ReservasController extends Controller {
     public function create() {
-        include __DIR__ . '/../Views/reservas/create.php';
+        return view('reservas.create');
     }
 
-    public function store() {
-        $reserva = new Reserva();
-        $reserva->usuario_id = $_POST['usuario_id'];
-        $reserva->habitacion_id = $_POST['habitacion_id'];
-        $reserva->fecha_inicio = $_POST['fecha_inicio'];
-        $reserva->fecha_fin = $_POST['fecha_fin'];
-        $reserva->ocupantes = $_POST['ocupantes'];
-        $reserva->save();
-
-        header('Location: /reservas');
+    public function store(Request $request) {
+        $data = $request->all();
+        Reserva::crear($data);
+        return redirect('/reservas');
     }
 
     public function index() {
         $reservas = Reserva::all();
-        include __DIR__ . '/../Views/reservas/index.php';
+        return view('reservas.index', ['reservas' => $reservas]);
     }
 }
