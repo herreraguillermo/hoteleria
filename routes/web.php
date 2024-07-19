@@ -15,6 +15,7 @@ Route::get('/reservas/create', [ReservaController::class, 'create']);
 Route::post('/reservas/create', [ReservaController::class, 'create']);
 Route::post('/reservas', [ReservaController::class, 'store']); */
 Route::resource('reservas', ReservaController::class);
+Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
 
 /* Route::get('/usuarios', [UsuarioController::class, 'index']);
 Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);

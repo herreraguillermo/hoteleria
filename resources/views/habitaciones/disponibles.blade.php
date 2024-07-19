@@ -13,9 +13,12 @@
                 <h3> {{ $habitacion->Clase }} {{ $habitacion->Numero }}</h3>
                 <p>Precio: {{ $habitacion->Precio }} US$</p>
                 <p>Capacidad: {{ $habitacion->Capacidad }}</p>
-                <form action="/usuarios/create" method="GET">
+                <form action="{{ route('usuarios.create') }}" method="GET">
                     @csrf
                     <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
+                    <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
+                    <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
+                    <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
                     <button type="submit">Reservar</button>
                 </form>
             </div>
