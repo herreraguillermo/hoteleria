@@ -5,14 +5,21 @@
 </head>
 <body>
     <h1>Crear Reserva</h1>
-    <form action="{{ url('/reservas/store') }}" method="POST">
+    <form action="/reservas" method="POST">
         @csrf
-        Usuario ID: <input type="text" name="idUsuario"><br>
-        Habitación ID: <input type="text" name="idHabitacion"><br>
-        Fecha de Inicio: <input type="date" name="Fecha_checkin"><br>
-        Fecha de Fin: <input type="date" name="Fecha_checkout"><br>
-        Cantidad de Huespedes: <input type="text" name="Cant_huespedes"><br>
-        <input type="submit" value="Reservar">
+        <input type="hidden" name="idUsuario" value="{{ request()->input('idUsuario') }}">
+        <input type="hidden" name="idHabitacion" value="{{ request()->input('idHabitacion') }}">
+        
+        <label for="Fecha_checkin">Fecha de Check-in:</label>
+        <input type="date" id="Fecha_checkin" name="Fecha_checkin" required>
+        
+        <label for="Fecha_checkout">Fecha de Check-out:</label>
+        <input type="date" id="Fecha_checkout" name="Fecha_checkout" required>
+        
+        <label for="Cant_huespedes">Cantidad de Huéspedes:</label>
+        <input type="number" id="Cant_huespedes" name="Cant_huespedes" required>
+        
+        <button type="submit">Reservar</button>
     </form>
 </body>
 </html>

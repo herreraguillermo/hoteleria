@@ -12,7 +12,7 @@ class Reserva extends Model {
         'Fecha_checkin', 'Fecha_checkout', 'idUsuario', 'idHabitacion', 'Cant_huespedes'
     ];
 
-    public static function crear($data) {
+    public static function create($data) {
         self::create($data);
 
         // Marcar fechas como no disponibles
