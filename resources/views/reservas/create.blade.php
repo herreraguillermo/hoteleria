@@ -7,7 +7,7 @@
     <h1>Crear Reserva</h1>
     <form action="/reservas" method="POST">
         @csrf
-        <input type="hidden" name="idUsuario" value="{{ request()->input('idUsuario') }}">
+        <input type="hidden" name="idHuesped" value="{{ request()->input('idHuesped') }}">
         <input type="hidden" name="idHabitacion" value="{{ request()->input('idHabitacion') }}">
         
         <label for="Fecha_checkin">Fecha de Check-in:</label>

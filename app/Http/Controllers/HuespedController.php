@@ -1,36 +1,35 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\Huesped;
 use App\Models\Reserva;
 use App\Models\Disponibilidad;
 
-class UsuarioController extends Controller
+class HuespedController extends Controller
 {
     public function create(Request $request)
     {
         $idHabitacion = $request->input('idHabitacion');
-        return view('usuarios.create', compact('idHabitacion'));
+        return view('Huespedes.create', compact('idHabitacion'));
         
     }
 
     public function store(Request $request)
     {
-        // Crear usuario
-        $usuario = new Usuario();
-        $usuario->Nombre = $request->input('Nombre');
-        $usuario->Documento = $request->input('Documento');
-        $usuario->Pasaporte = $request->input('Pasaporte');
-        $usuario->Nacionalidad = $request->input('Nacionalidad');
-        $usuario->Email = $request->input('Email');
-        $usuario->Telefono = $request->input('Telefono');
-        $usuario->save();
+        // Crear Huesped
+        $Huesped = new Huesped();
+        $Huesped->Nombre = $request->input('Nombre');
+        $Huesped->Documento = $request->input('Documento');
+        $Huesped->Nacionalidad = $request->input('Nacionalidad');
+        $Huesped->Email = $request->input('Email');
+        $Huesped->Telefono = $request->input('Telefono');
+        $Huesped->save();
 
         // Crear reserva
         $reserva = new Reserva();
         $reserva->Fecha_checkin = $request->input('fechaInicio');
         $reserva->Fecha_checkout = $request->input('fechaFin');
-        $reserva->idUsuario = $usuario->idUsuario;
+        $reserva->idHuesped = $Huesped->idHuesped;
         $reserva->idHabitacion = $request->input('idHabitacion');
         $reserva->Cant_huespedes = $request->input('ocupantes');
         $reserva->save();
@@ -51,6 +50,6 @@ class UsuarioController extends Controller
             $disponibilidad->save();
 
         // Redirigir a reservas/create con el id del usuario y de la habitación
-        }return redirect()->route('reservas.create', ['idUsuario' => $usuario->idUsuario, 'idHabitacion' => $request->input('idHabitacion')]);
+        }return redirect()->route('reservas.create', ['idHuesped' => $Huesped->idHuesped, 'idHabitacion' => $request->input('idHabitacion')]);
     }
 }

@@ -10,7 +10,7 @@ class CreateReservasTable extends Migration {
             $table->id('idReserva');
             $table->date('Fecha_checkin');
             $table->date('Fecha_checkout');
-            $table->foreignId('idUsuario')->constrained('Usuarios');
+            $table->foreignId('idHuesped')->constrained('Huespedes');
             $table->foreignId('idHabitacion')->constrained('Habitaciones');
             $table->integer('Cant_huespedes');
             $table->timestamps();

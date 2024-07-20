@@ -4,10 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsuariosTable extends Migration {
+class CreateHuespedesTable extends Migration {
     public function up() {
-        Schema::create('Usuarios', function (Blueprint $table) {
-            $table->id('idUsuario');
+        Schema::create('Huespedes', function (Blueprint $table) {
+            $table->id('idHuesped');
             $table->string('Nombre');
             $table->string('Documento');
             $table->string('Pasaporte')->nullable();
@@ -19,6 +19,6 @@ class CreateUsuariosTable extends Migration {
     }
 
     public function down() {
-        Schema::dropIfExists('Usuarios');
+        Schema::dropIfExists('Huespedes');
     }
 }

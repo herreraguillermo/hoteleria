@@ -29,7 +29,7 @@ class ReservaController extends Controller
         $request->validate([
             'Fecha_checkin' => 'required|date|after_or_equal:today',
             'Fecha_checkout' => 'required|date|after:Fecha_checkin',
-            'idUsuario' => 'required|exists:usuarios,idUsuario',
+            'idHuesped' => 'required|exists:Huespedes,idHuesped',
             'idHabitacion' => 'required|integer',
             'Cant_huespedes' => 'required|integer|min:1',
         ]);
@@ -37,7 +37,7 @@ class ReservaController extends Controller
         $reserva = new Reserva();
         $reserva->Fecha_checkin = $request->input('Fecha_checkin');
         $reserva->Fecha_checkout = $request->input('Fecha_checkout');
-        $reserva->idUsuario = $request->input('idUsuario');
+        $reserva->idHuesped = $request->input('idHuesped');
         $reserva->idHabitacion = $request->input('idHabitacion');
         $reserva->Cant_huespedes = $request->input('Cant_huespedes');
         $reserva->save();

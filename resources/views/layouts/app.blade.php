@@ -9,12 +9,11 @@
 <body>
 
 {{--  Navbar  --}}
-Aca el Navbar
+
 
 @yield('content')
 
 {{--  Footer  --}}
-Aca Footer    
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HabitacionesController;
 use App\Http\Controllers\ReservaController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\HuespedController;
 
 Route::get('/', [HabitacionesController::class, 'index']);
 Route::get('/habitaciones', [HabitacionesController::class, 'index']);
@@ -17,10 +17,10 @@ Route::post('/reservas', [ReservaController::class, 'store']); */
 Route::resource('reservas', ReservaController::class);
 Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
 
-/* Route::get('/usuarios', [UsuarioController::class, 'index']);
-Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
-Route::get('/usuarios/create', [UsuarioController::class, 'create']);
-Route::post('/usuarios', [UsuarioController::class, 'store']); */
-Route::resource('usuarios', UsuarioController::class);
-//Route::post('usuarios', UsuarioController::class, 'store');
+/* Route::get('/Usuarios', [UsuarioController::class, 'index']);
+Route::get('/Usuarios/{id}', [UsuarioController::class, 'show']);
+Route::get('/Usuarios/create', [UsuarioController::class, 'create']);
+Route::post('/Usuarios', [UsuarioController::class, 'store']); */
+Route::resource('Huespedes', HuespedController::class);
+//Route::post('Huespedes', HuespedController::class, 'store');
 

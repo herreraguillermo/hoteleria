@@ -9,7 +9,7 @@ class Reserva extends Model {
     protected $primaryKey = 'idReserva';
 
     protected $fillable = [
-        'Fecha_checkin', 'Fecha_checkout', 'idUsuario', 'idHabitacion', 'Cant_huespedes'
+        'Fecha_checkin', 'Fecha_checkout', 'idHuesped', 'idHabitacion', 'Cant_huespedes'
     ];
 
     public static function create($data) {
