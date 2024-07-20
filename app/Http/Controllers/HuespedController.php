@@ -33,6 +33,8 @@ class HuespedController extends Controller
         $reserva->idHabitacion = $request->input('idHabitacion');
         $reserva->Cant_huespedes = $request->input('ocupantes');
         $reserva->save();
+        //esto es nuevo hay que ver si anda
+        return redirect()->route('reservas.show', ['reserva' => $reserva->idReserva]);
 
         // Actualizar disponibilidad
         $start = new \DateTime($request->input('fechaInicio'));
@@ -49,7 +51,7 @@ class HuespedController extends Controller
             $disponibilidad->Disponible = false;
             $disponibilidad->save();
 
-        // Redirigir a reservas/create con el id del usuario y de la habitación
-        }return redirect()->route('reservas.create', ['idHuesped' => $Huesped->idHuesped, 'idHabitacion' => $request->input('idHabitacion')]);
+        
+        }return redirect()->route('reservas.show', ['idReserva' => $reserva->idReserva]);
     }
 }

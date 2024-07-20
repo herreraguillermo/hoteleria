@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Reserva Completa</title>
 </head>
 <body>
-    <p> reserva realizada!</p>
+    <h1>Reserva Completa</h1>
+    <h2>Datos del Huésped</h2>
+    <p>Nombre: {{ $huesped->Nombre }}</p>
+    <p>Nacionalidad: {{ $huesped->Nacionalidad }}</p>
+    <p>Documento: {{ $huesped->Documento }}</p>
+    <p>Email: {{ $huesped->Email }}</p>
+    <p>Teléfono: {{ $huesped->Telefono }}</p>
+
+    <h2>Datos de la Reserva</h2>
+    <p>Fecha de Check-in: {{ $reserva->Fecha_checkin }}</p>
+    <p>Fecha de Check-out: {{ $reserva->Fecha_checkout }}</p>
+    <p>Habitación: {{ $reserva->habitacion->Numero }}</p>
+    <p>Cantidad de Huéspedes: {{ $reserva->Cant_huespedes }}</p>
+
+    <a href="{{ url('/') }}">Volver a la Página Principal</a>
 </body>
 </html>

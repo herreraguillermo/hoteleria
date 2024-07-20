@@ -65,4 +65,16 @@ class ReservaController extends Controller
 
         return view('reservas.disponibilidad', compact('habitacionesDisponibles'));
     }
+
+    public function show($idReserva)
+    {
+        // Recuperar la reserva por ID
+        $reserva = Reserva::findOrFail($idReserva);
+        
+        // Obtener el huésped asociado
+        $huesped = $reserva->huesped;
+
+        // Pasar los datos a la vista
+        return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
+    }
 }
