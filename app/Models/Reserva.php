@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Reserva extends Model {
     use hasfactory;
@@ -29,6 +30,13 @@ class Reserva extends Model {
     public function habitacion()
     {
         return $this->belongsTo(Habitacion::class, 'idHabitacion');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($reserva) {
+            $reserva->token = Str::random(32); // Genera un token único para cada reserva
+        });
     }
 }
 

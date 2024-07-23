@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Habitacion;
 use App\Models\Reserva;
+use App\Models\Huesped;
 
 class ReservaController extends Controller
 {
@@ -65,16 +66,13 @@ class ReservaController extends Controller
 
         return view('reservas.disponibilidad', compact('habitacionesDisponibles'));
     }
-
-    public function show($idReserva)
+    
+    public function show($token)
     {
-        // Recuperar la reserva por ID
-        $reserva = Reserva::findOrFail($idReserva);
-        
-        // Obtener el huésped asociado
-        $huesped = $reserva->huesped;
+    $reserva = Reserva::where('token', $token)->firstOrFail();
+    $huesped = Huesped::findOrFail($reserva->idHuesped);
 
-        // Pasar los datos a la vista
-        return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
+    return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
     }
+    
 }

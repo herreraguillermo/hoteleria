@@ -34,7 +34,7 @@ class HuespedController extends Controller
         $reserva->Cant_huespedes = $request->input('ocupantes');
         $reserva->save();
         //esto es nuevo hay que ver si anda
-        return redirect()->route('reservas.show', ['reserva' => $reserva->idReserva]);
+        //return redirect()->route('reservas.show', ['reserva' => $reserva->idReserva]);
 
         // Actualizar disponibilidad
         $start = new \DateTime($request->input('fechaInicio'));
@@ -52,6 +52,8 @@ class HuespedController extends Controller
             $disponibilidad->save();
 
         
-        }return redirect()->route('reservas.show', ['idReserva' => $reserva->idReserva]);
+        }
+        // Redirigir a la vista de reserva con el token
+        return redirect()->route('reservas.show', ['token' => $reserva->token]);
     }
 }
