@@ -56,4 +56,56 @@ class HuespedController extends Controller
         // Redirigir a la vista de reserva con el token
         return redirect()->route('reservas.show', ['token' => $reserva->token]);
     }
+
+    //admin
+    public function index()
+    {
+        $huespedes = Huesped::all();
+        return view('admin.huespedes.index', compact('huespedes'));
+    }
+
+    /* public function create()
+    {
+        return view('admin.huespedes.create');
+    } */
+
+    /* public function store(Request $request)
+    {
+        $huesped = new Huesped();
+        $huesped->Nombre = $request->input('Nombre');
+        $huesped->Documento = $request->input('Documento');
+        $huesped->Nacionalidad = $request->input('Nacionalidad');
+        $huesped->Email = $request->input('Email');
+        $huesped->Telefono = $request->input('Telefono');
+        $huesped->save();
+
+        return redirect()->route('admin.huespedes.index')->with('success', 'Huésped creado exitosamente.');
+    }
+ */
+    public function edit($id)
+    {
+        $huesped = Huesped::findOrFail($id);
+        return view('admin.huespedes.edit', compact('huesped'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $huesped = Huesped::findOrFail($id);
+        $huesped->Nombre = $request->input('Nombre');
+        $huesped->Documento = $request->input('Documento');
+        $huesped->Nacionalidad = $request->input('Nacionalidad');
+        $huesped->Email = $request->input('Email');
+        $huesped->Telefono = $request->input('Telefono');
+        $huesped->save();
+
+        return redirect()->route('admin.huespedes.index')->with('success', 'Huésped actualizado exitosamente.');
+    }
+
+    public function destroy($id)
+    {
+        $huesped = Huesped::findOrFail($id);
+        $huesped->delete();
+
+        return redirect()->route('admin.huespedes.index')->with('success', 'Huésped eliminado exitosamente.');
+    }
 }

@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Habitacion extends Model {
+
+    use HasFactory;
     protected $table = 'Habitaciones';
     protected $primaryKey = 'idHabitacion';
+    public $timestamps = false;
 
     public static function disponibles($fechaInicio, $fechaFin, $ocupantes) {
         $habitaciones = DB::table('Habitaciones')
@@ -22,4 +26,12 @@ class Habitacion extends Model {
 
         return $habitaciones;
     }
+
+    protected $fillable = [
+        'Numero',
+        'Precio',
+        'Capacidad',
+        'Clase',
+    ];
+    
 }
