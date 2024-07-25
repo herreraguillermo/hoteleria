@@ -13,11 +13,23 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        if (auth()->check() && auth()->user()->is_admin) {
-            return $next($request);
-        }
-        return redirect('/')->with('error', 'No tienes acceso a esta sección');
+    // app/Http/Middleware/AdminMiddleware.php
+
+public function handle($request, Closure $next)
+{
+    if (auth()->check() && auth()->user()->is_admin) {
+        return $next($request);
     }
+
+    return redirect('/'); // O una página de error adecuada
+}
+
+/* public function handle($request, Closure $next)
+{
+    if (!Auth::check() || !Auth::user()->isAdmin()) {
+        return redirect('/home');
+    }
+
+    return $next($request);
+} */
 }

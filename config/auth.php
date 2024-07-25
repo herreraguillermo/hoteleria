@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
+        'home' => 'admin' ,
     ],
 
     /*
@@ -113,3 +114,4 @@ return [
     'password_timeout' => 10800,
 
 ];
+

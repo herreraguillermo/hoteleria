@@ -11,5 +11,8 @@
         Cantidad de Ocupantes: <input type="number" name="ocupantes" required><br>
         <input type="submit" value="Buscar">
     </form>
+    
+    <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a>
+    
 </body>
 </html>

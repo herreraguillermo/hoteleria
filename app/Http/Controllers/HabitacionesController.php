@@ -42,7 +42,7 @@ class HabitacionesController extends Controller {
     public function index()
 {
     $habitaciones = Habitacion::all();
-    return view('admin.habitaciones.index', compact('habitaciones'));
+    return view('habitaciones.index', compact('habitaciones'));
 }
 
 public function create()
