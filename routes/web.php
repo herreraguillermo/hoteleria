@@ -112,13 +112,10 @@ Route::get('/reservas/{token}', [ReservaController::class, 'show'])->name('reser
 Route::resource('Huespedes', HuespedController::class);
 Route::post('/huespedes', [HuespedController::class, 'store'])->name('usuarios.store');
 
-/* Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); */
-
 // Rutas del panel de administración
  Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/', [AdminhabitacionController::class, 'index'])->name('admin.dashboard');
     Route::resource('habitaciones', AdminHabitacionController::class , ['as' => 'admin']);
-    /* Route::resource('habitaciones', HabitacionesController::class); */
     Route::resource('reservas', ReservaController::class , ['as' => 'admin']);
     Route::resource('huespedes', HuespedController::class , ['as' => 'admin']);
     Route::get('/admin/habitaciones/{id}/edit', [HabitacionesController::class, 'edit'])->name('admin.habitaciones.edit');

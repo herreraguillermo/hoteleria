@@ -78,11 +78,18 @@ class ReservaController extends Controller
 
     //esto es nuevo para agregar admin
 
-    public function index()
+    public function index(Request $request)
     {
         $reservas = Reserva::all();
-        return view('admin.reservas.index', compact('reservas'));
+        $sort = $request->get('sort', 'Fecha_checkin'); // Default sort column
+        $order = $request->get('order', 'asc'); // Default order
+
+        $reservas = Reserva::orderBy($sort, $order)->paginate(10); // Paginate results
+
+        return view('admin.reservas.index', compact('reservas', 'sort', 'order'));
     }
+        
+    
 
     public function create()
     {
