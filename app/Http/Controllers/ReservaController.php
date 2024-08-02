@@ -85,7 +85,7 @@ class ReservaController extends Controller
         $order = $request->get('order', 'asc'); // Default order
 
         $reservas = Reserva::orderBy($sort, $order)->paginate(10); // Paginate results
-
+        
         return view('admin.reservas.index', compact('reservas', 'sort', 'order'));
     }
         

@@ -7,12 +7,18 @@ use App\Models\Habitacion;
 
 class AdminHabitacionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $habitaciones = Habitacion::all();
-        return view('admin.habitaciones.index', compact('habitaciones'));
-    }
+        $sort = $request->input('sort', 'Numero'); // Por defecto ordena por número de habitación
+        $direction = $request->input('direction', 'asc'); // Por defecto en orden ascendente
 
+        $habitaciones = Habitacion::orderBy($sort, $direction)->get();
+
+        return view('admin.habitaciones.index', compact('habitaciones', 'sort', 'direction'));
+  
+    }
+    
     public function create()
     {
         return view('admin.habitaciones.create');
@@ -60,4 +66,8 @@ class AdminHabitacionController extends Controller
 
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada correctamente.');
     }
+
+    
+
+
 }

@@ -7,10 +7,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Número</th>
-                <th>Precio</th>
-                <th>Capacidad</th>
-                <th>Clase</th>
+                <th><a href="{{ route('admin.habitaciones.index', ['sort' => 'Numero', 'direction' => $sort === 'Numero' && $direction === 'asc' ? 'desc' : 'asc']) }}">Numero</a></th>
+                <th><a href="{{ route('admin.habitaciones.index', ['sort' => 'Precio', 'direction' => $sort === 'Precio' && $direction === 'asc' ? 'desc' : 'asc']) }}">Precio</a></th>
+                <th><a href="{{ route('admin.habitaciones.index', ['sort' => 'Capacidad', 'direction' => $sort === 'Capacidad' && $direction === 'asc' ? 'desc' : 'asc']) }}">Capacidad</a></th>
+                <th><a href="{{ route('admin.habitaciones.index', ['sort' => 'Clase', 'direction' => $sort === 'Clase' && $direction === 'asc' ? 'desc' : 'asc']) }}">Clase</a></th>
                 <th>Acciones</th>
             </tr>
         </thead>
