@@ -20,10 +20,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.huespedes.index') }}">Huéspedes</a>
                 </li>
-                <li><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <li class="nav-item"><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 </li>
             </ul>
         </div>
