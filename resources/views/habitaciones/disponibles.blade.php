@@ -10,7 +10,7 @@
             
             @foreach ($habitaciones as $habitacion)
             <div>
-                <h3> {{ $habitacion->Clase }} {{ $habitacion->Numero }}</h3>
+                <h3> {{ $habitacion->Clase}} {{$habitacion->Numero }}</h3>
                 <p>Precio: {{ $habitacion->Precio }} US$</p>
                 <p>Capacidad: {{ $habitacion->Capacidad }}</p>
                 <form action="{{ route('Huespedes.create') }}" method="GET">
