@@ -10,6 +10,8 @@ use App\Models\Disponibilidad;
 
 class ReservaController extends Controller
 {
+
+
     public function disponibilidad(Request $request)
     {
         $request->validate([

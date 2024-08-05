@@ -18,6 +18,8 @@ Route::resource('reservas', ReservaController::class);
 Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
 Route::get('/reservas/{idReserva}', [ReservaController::class, 'show'])->name('reservas.show');
 Route::get('/reservas/{token}', [ReservaController::class, 'show'])->name('reservas.show');
+Route::resource('admin/reservas', ReservaController::class);
+
 
 
 Route::resource('Huespedes', HuespedController::class);
