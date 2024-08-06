@@ -39,7 +39,6 @@ class HuespedController extends Controller
         // Actualizar disponibilidad
         $start = new \DateTime($request->input('fechaInicio'));
         $end = new \DateTime($request->input('fechaFin'));
-        $end->modify('+1 day'); // Incluir el día de salida
 
         $interval = new \DateInterval('P1D');
         $period = new \DatePeriod($start, $interval, $end);
