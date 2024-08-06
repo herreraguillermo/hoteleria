@@ -9,6 +9,14 @@ use App\Models\Disponibilidad;
 class HabitacionesController extends Controller {
     
     public function disponibles(Request $request) {
+
+        // Validación
+        $request->validate([
+            'fechaInicio' => 'required|date|after_or_equal:today',
+            'fechaFin' => 'required|date|after:fechaInicio',
+            'ocupantes' => 'required|integer|min:1|max:5',
+        ]);
+
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
         $ocupantes = $request->input('ocupantes');

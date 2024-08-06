@@ -1,0 +1,40 @@
+/* Reseteo de estilos predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales del body */
+body {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal */
+.container {
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+}
+
+/* Estilos para las habitaciones */
+.habitaciones-lista {
+    margin-top: 20px;
+}
+
+.habitacion {
+    border: 1px solid #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+h1, h2, p {
+    margin-bottom: 10px;
+}
