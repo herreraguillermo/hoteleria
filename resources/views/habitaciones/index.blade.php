@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Habitaciones Disponibles</title>
+    <title>Buscar Habitación</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Buscar Habitaciones Disponibles</h1>
-        <form action="{{ url('/habitaciones/disponibles') }}" method="POST" onsubmit="return validateDates()">
+        <h1 class="frente">Buscar Habitación</h1> <br>
+        <form id="primerform" name="primerform" action="{{ url('/habitaciones/disponibles') }}" method="POST" onsubmit="return validateDates()">
             @csrf
-            Fecha de Inicio: <input type="date" name="fechaInicio" id="fechaInicio" min="{{ \Carbon\Carbon::today()->toDateString() }}" required><br>
-            Fecha de Fin: <input type="date" name="fechaFin" id="fechaFin" required><br>
-            Cantidad de Ocupantes: <input type="number" name="ocupantes" min="1" max="5" required><br>
+            <label for="fechaInicio">Fecha de Arribo:</label>
+            <input type="date" name="fechaInicio" id="fechaInicio" min="{{ \Carbon\Carbon::today()->toDateString() }}" required>
+            
+            <label for="fechaFin">Fecha de Partida:</label>
+            <input type="date" name="fechaFin" id="fechaFin" required>
+            
+            <label for="ocupantes">Cantidad de Ocupantes:</label>
+            <input type="number" name="ocupantes" min="1" max="5" required>
+            
             <input type="submit" value="Buscar">
         </form>
         
