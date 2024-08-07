@@ -11,6 +11,28 @@
             <div class="habitaciones-lista">
                 @foreach ($habitaciones as $habitacion)
                 <div class="habitacion">
+
+
+                    @php
+                    $imagen = 'default.jpg'; // Imagen por defecto en caso de que la clase no se encuentre
+                    switch (strtolower($habitacion->Clase)) {
+                        case 'standard':
+                            $imagen = 'standard.jpg';
+                            break;
+                        case 'deluxe':
+                            $imagen = 'deluxe.jpg';
+                            break;
+                        case 'suite':
+                            $imagen = 'suite.jpg';
+                            break;
+                    }
+                @endphp
+                <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion">
+                
+
+
+
+
                     <h3> {{ $habitacion->Clase}} {{$habitacion->Numero }}</h3>
                     <p>Precio: {{ $habitacion->Precio }} US$</p>
                     <p>Capacidad: {{ $habitacion->Capacidad }}</p>

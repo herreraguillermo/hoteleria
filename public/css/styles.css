@@ -119,3 +119,10 @@ body {
     width: 100%;
     margin: 0 auto;
 }
+/* Estilo para las imágenes de las habitaciones */
+.imagen-habitacion {
+    width: 100%; /* Ajusta el ancho de la imagen al contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 10px; /* Redondea las esquinas de la imagen */
+    margin-bottom: 10px; /* Espacio debajo de la imagen */
+}
