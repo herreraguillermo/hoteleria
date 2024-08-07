@@ -11,7 +11,20 @@
             <div class="habitaciones-lista">
                 @foreach ($habitaciones as $habitacion)
                 <div class="habitacion">
+                    <div class="habitacion-info">
 
+                    <h3> {{ $habitacion->Clase}} {{$habitacion->Numero }}</h3>
+                    <p>Precio: {{ $habitacion->Precio }} US$</p>
+                    <p>Capacidad: {{ $habitacion->Capacidad }}</p>
+                    <form action="{{ route('Huespedes.create') }}" method="GET">
+                        @csrf
+                        <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
+                        <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
+                        <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
+                        <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
+                        <button type="submit" class="submit-button">Reservar</button>
+                    </form>
+                    </div>
 
                     @php
                     $imagen = 'default.jpg'; // Imagen por defecto en caso de que la clase no se encuentre
@@ -31,19 +44,6 @@
                 
 
 
-
-
-                    <h3> {{ $habitacion->Clase}} {{$habitacion->Numero }}</h3>
-                    <p>Precio: {{ $habitacion->Precio }} US$</p>
-                    <p>Capacidad: {{ $habitacion->Capacidad }}</p>
-                    <form action="{{ route('Huespedes.create') }}" method="GET">
-                        @csrf
-                        <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
-                        <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
-                        <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
-                        <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
-                        <button type="submit" class="submit-button">Reservar</button>
-                    </form>
                 </div>
                 @endforeach
             </div>

@@ -14,13 +14,22 @@ class Reserva extends Model {
     protected $fillable = [
         'Fecha_checkin', 'Fecha_checkout', 'idHuesped', 'idHabitacion', 'Cant_huespedes'
     ];
-
     public static function create($data) {
-        self::create($data);
-
+        // Insertar la nueva reserva
+        $reserva = new self();
+        $reserva->Fecha_checkin = $data['Fecha_checkin'];
+        $reserva->Fecha_checkout = $data['Fecha_checkout'];
+        $reserva->idHuesped = $data['idHuesped'];
+        $reserva->idHabitacion = $data['idHabitacion'];
+        $reserva->Cant_huespedes = $data['Cant_huespedes'];
+        $reserva->save();
+    
         // Marcar fechas como no disponibles
         Disponibilidad::marcarNoDisponible($data['idHabitacion'], $data['Fecha_checkin'], $data['Fecha_checkout']);
+    
+        return $reserva;
     }
+    
     //esta parte es nueva
     public function huesped()
     {
