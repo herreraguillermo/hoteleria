@@ -23,7 +23,7 @@
             <input type="submit" value="Buscar">
         </form>
         
-        <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a>
+        {{--  <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a>  --}}
     </div>
     
     <script>
@@ -38,5 +38,11 @@
             return true;
         }
     </script>
+
+    <footer class="footer">
+        <p>Proyecto PP3 - Curso 2023 ISFT 38</p>
+        <p>Contacto: contacto@mail.com</p>
+        <p>Teléfono: 3364508291</p>
+    </footer>
 </body>
 </html>

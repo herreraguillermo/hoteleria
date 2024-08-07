@@ -145,3 +145,27 @@ body {
     height: auto;
     margin-left: 275px; /* Espacio entre la imagen y el contenido */
 }
+
+/* public/css/styles.css */
+
+/* Estilos para el footer */
+.footer {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro y opaco */
+    color: #fff; /* Texto en blanco para contraste */
+    text-align: center; /* Centra el texto */
+    padding: 20px; /* Espaciado interno */
+    width: 100%; /* Ocupa todo el ancho de la página */
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin-top: 20px; /* Espacio arriba del footer para separarlo del contenido superior */
+}
+
+/* Asegura que el footer esté al final del contenido */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el contenido ocupe al menos el alto de la pantalla */
+}
+
+.container {
+    flex: 1; /* Permite que el contenedor principal expanda para ocupar el espacio disponible */
+}

@@ -1,0 +1,24 @@
+en habitaciones controller:
+public function disponibles(Request $request)
+{
+    // Obtener las fechas y la cantidad de ocupantes del formulario
+    $fechaInicio = $request->input('fechaInicio');
+    $fechaFin = $request->input('fechaFin');
+
+    // Validar las fechas
+    if (new \DateTime($fechaFin) <= new \DateTime($fechaInicio)) {
+        // Redirigir de vuelta al formulario con un mensaje de error
+        return redirect()->back()->withErrors(['fecha' => 'La fecha de salida no puede ser anterior a la fecha de llegada.']);
+    }
+
+    // Aquí va el resto de la lógica para manejar la búsqueda de habitaciones disponibles
+}
+en la vista:
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>

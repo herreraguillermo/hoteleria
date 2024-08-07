@@ -28,10 +28,11 @@
 
         <a href="{{ url('/') }}" class="back-link">Volver a la Página Principal</a>
     </div>
-    <div class=footer>
-        <p>
-            nose
-        </p>
-    </div>
+
+    <footer class="footer">
+        <p>Proyecto PP3 - Curso 2023 ISFT 38</p>
+        <p>Contacto: contacto@mail.com</p>
+        <p>Teléfono: 3364508291</p>
+    </footer>
 </body>
 </html>
