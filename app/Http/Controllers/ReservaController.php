@@ -87,8 +87,7 @@ class ReservaController extends Controller
     return view('admin.reservas.edit', compact('reserva', 'huespedes', 'habitaciones'));
 }
 
-
-    public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
     $request->validate([
         'Fecha_checkin' => 'required|date',
@@ -98,11 +97,63 @@ class ReservaController extends Controller
         'idHabitacion' => 'required|exists:habitaciones,idHabitacion',
     ]);
 
-    $reserva = Reserva::findOrFail($id);
-    $reserva->update($request->only(['Fecha_checkin', 'Fecha_checkout', 'Cant_huespedes', 'idHuesped', 'idHabitacion']));
+    $reserva = Reserva::find($id);
+    
+    // Obtener los datos del formulario
+    $nuevaHabitacionId = $request->input('idHabitacion');
+    $fechaCheckin = $request->input('Fecha_checkin');
+    $fechaCheckout = $request->input('Fecha_checkout');
 
-    return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada exitosamente.');
+    // Obtener la habitación actual
+    $habitacionActualId = $reserva->idHabitacion;
+
+    // Marca la habitación actual como disponible
+    $this->marcarDisponibilidad($habitacionActualId, $fechaCheckin, $fechaCheckout, true);
+
+    // Marca la nueva habitación como ocupada
+    $this->marcarDisponibilidad($nuevaHabitacionId, $fechaCheckin, $fechaCheckout, false);
+
+    // Actualiza la reserva
+    $reserva->idHabitacion = $nuevaHabitacionId;
+    $reserva->Fecha_checkin = $fechaCheckin;
+    $reserva->Fecha_checkout = $fechaCheckout;
+    $reserva->save();
+
+    
+    /* $reserva = Reserva::findOrFail($id);
+    $reserva->update($request->only(['Fecha_checkin', 'Fecha_checkout', 'Cant_huespedes', 'idHuesped', 'idHabitacion'])); */
+
+    return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada correctamente');
 }
+
+protected function marcarDisponibilidad($habitacionId, $fechaCheckin, $fechaCheckout, $disponible)
+{
+    $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout);
+
+    foreach ($fechas as $fecha) {
+        Disponibilidad::updateOrCreate(
+            ['idHabitacion' => $habitacionId, 'fecha' => $fecha],
+            ['disponible' => $disponible]
+        );
+    }
+}
+
+
+protected function generarRangoFechas($fechaInicio, $fechaFin)
+{
+    $fechas = [];
+    $inicio = \Carbon\Carbon::parse($fechaInicio);
+    $fin = \Carbon\Carbon::parse($fechaFin);
+
+    while ($inicio->lte($fin)) {
+        $fechas[] = $inicio->format('Y-m-d');
+        $inicio->addDay();
+    }
+
+    return $fechas;
+}
+
+
 
 
     public function destroy($id)
