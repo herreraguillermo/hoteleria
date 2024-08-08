@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <h1 class="frente">Datos para la reserva</h1>
-        <form action="{{ route('Huespedes.store') }}" method="POST">
+        <form id="correccion" action="{{ route('Huespedes.store') }}" method="POST">
             @csrf
             <input type="hidden" name="idHabitacion" value="{{ request('idHabitacion') }}">
             <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label for="Telefono">Teléfono:</label>
-                <input type="text" id="Telefono" name="Telefono" required>
+                <input type="number" id="Telefono" name="Telefono" required>
             </div>
 
             <button type="submit" class="submit-button">Guardar</button>
