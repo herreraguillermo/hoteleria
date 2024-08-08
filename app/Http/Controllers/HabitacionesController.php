@@ -7,15 +7,22 @@ use App\Models\Habitacion;
 use App\Models\Disponibilidad;
 
 class HabitacionesController extends Controller {
-    /* public function index() {
-        return view('habitaciones.index');
-    } */
-   
-
+    
     public function disponibles(Request $request) {
+
+        // Validación
+        $request->validate([
+            'fechaInicio' => 'required|date|after_or_equal:today',
+            'fechaFin' => 'required|date|after:fechaInicio',
+            'ocupantes' => 'required|integer|min:1|max:5',
+        ]);
+
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
         $ocupantes = $request->input('ocupantes');
+        $orden = $request->input('ordenm', 'asc'); // Obtenemos el orden, por defecto ascendente
+
+        
         // Buscar habitaciones que cumplan con la capacidad
         $habitaciones = Habitacion::where('Capacidad', '>=', $ocupantes)->get();
         $habitacionesDisponibles = [];
@@ -32,76 +39,69 @@ class HabitacionesController extends Controller {
             }
         }
 
+        // Ordenar las habitaciones disponibles por precio
+        usort($habitacionesDisponibles, function($a, $b) use ($orden) {
+            if ($orden === 'asc') {
+                return $a->Precio <=> $b->Precio;
+            } else {
+                return $b->Precio <=> $a->Precio;
+            }
+        });
 
-        $habitaciones = Habitacion::disponibles($fechaInicio, $fechaFin, $ocupantes);
         return view('habitaciones.disponibles', ['habitaciones' => $habitacionesDisponibles]);
     }
 
-    //para admin controller
+    // Para admin controller
 
     public function index()
-{
-    $habitaciones = Habitacion::all();
-    return view('habitaciones.index', compact('habitaciones'));
-}
+    {
+        $habitaciones = Habitacion::all();
+        return view('habitaciones.index', compact('habitaciones'));
+    }
 
-public function create()
-{
-    return view('admin.habitaciones.create');
-}
+    public function create()
+    {
+        return view('admin.habitaciones.create');
+    }
 
-public function store(Request $request)
-{
-    $habitacion = new Habitacion();
-    $habitacion->Numero = $request->input('Numero');
-    $habitacion->Precio = $request->input('Precio');
-    $habitacion->Capacidad = $request->input('Capacidad');
-    $habitacion->Clase = $request->input('Clase');
-    $habitacion->save();
+    public function store(Request $request)
+    {
+        $habitacion = new Habitacion();
+        $habitacion->Numero = $request->input('Numero');
+        $habitacion->Precio = $request->input('Precio');
+        $habitacion->Capacidad = $request->input('Capacidad');
+        $habitacion->Clase = $request->input('Clase');
+        $habitacion->save();
 
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
-}
+        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
+    }
 
-public function edit($id)
-{
-    $habitacion = Habitacion::findOrFail($id);
-    return view('admin.habitaciones.edit', compact('habitacion'));
-}
+    public function edit($id)
+    {
+        $habitacion = Habitacion::findOrFail($id);
+        return view('admin.habitaciones.edit', compact('habitacion'));
+    }
 
-/* public function update(Request $request, $id)
-{
-    $habitacion = Habitacion::findOrFail($id);
-    $habitacion->Numero = $request->input('Numero');
-    $habitacion->Precio = $request->input('Precio');
-    $habitacion->Capacidad = $request->input('Capacidad');
-    $habitacion->Clase = $request->input('Clase');
-    $habitacion->save();
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'Numero' => 'required|string|max:255',
+            'Precio' => 'required|numeric',
+            'Capacidad' => 'required|integer',
+            'Clase' => 'required|string|max:255',
+        ]);
 
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
-} */
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'Numero' => 'required|string|max:255',
-        'Precio' => 'required|numeric',
-        'Capacidad' => 'required|integer',
-        'Clase' => 'required|string|max:255',
-    ]);
+        $habitacion = Habitacion::findOrFail($id);
+        $habitacion->update($request->only(['Numero', 'Precio', 'Capacidad', 'Clase']));
 
-    $habitacion = Habitacion::findOrFail($id);
-    $habitacion->update($request->only(['Numero', 'Precio', 'Capacidad', 'Clase']));
+        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
+    }
 
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
-}
+    public function destroy($id)
+    {
+        $habitacion = Habitacion::findOrFail($id);
+        $habitacion->delete();
 
-
-
-public function destroy($id)
-{
-    $habitacion = Habitacion::findOrFail($id);
-    $habitacion->delete();
-
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
-}
-
+        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
+    }
 }

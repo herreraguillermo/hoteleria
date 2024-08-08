@@ -11,13 +11,17 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HabitacionesController::class, 'index']);
 Route::get('/habitaciones', [HabitacionesController::class, 'index']);
-Route::post('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles']);
-Route::get('/habitaciones/{id}', [HabitacionesController::class, 'show']);
+Route::get('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles'])->name('habitaciones.disponibles');
+Route::post('/habitaciones/disponibles', [HabitacionesController::class, 'disponibles'])->name('habitaciones.disponibles');
+Route::get('/habitaciones/{id}', [HabitacionesController::class, 'show'])->name('habitaciones.show');
 
 Route::resource('reservas', ReservaController::class);
 Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
 Route::get('/reservas/{idReserva}', [ReservaController::class, 'show'])->name('reservas.show');
 Route::get('/reservas/{token}', [ReservaController::class, 'show'])->name('reservas.show');
+Route::resource('admin/reservas', ReservaController::class);
+
+
 
 Route::resource('Huespedes', HuespedController::class);
 Route::post('/huespedes', [HuespedController::class, 'store'])->name('usuarios.store');

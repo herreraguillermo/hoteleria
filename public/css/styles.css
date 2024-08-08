@@ -1,0 +1,177 @@
+/* Estilos generales del body */
+body {
+    background-image: url('../images/fondo-hall-amarillo.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+}
+
+
+/* Estilos para los grupos de formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+/* Contenedor principal para todas las vistas */
+.container {
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Opcional: sombra para dar profundidad */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+/* Estilos para los encabezados y párrafos dentro del contenedor */
+.container h1,
+.container h2 {
+    margin-bottom: 15px;
+}
+
+.container p {
+    margin-bottom: 10px;
+}
+
+.container strong {
+    font-weight: bold;
+}
+
+/* Estilo para los botones dentro del contenedor */
+.container .submit-button,
+.container .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.container .submit-button {
+    background-color: #4CAF50; /* Color del botón */
+    border: none;
+}
+
+.container .submit-button:hover {
+    background-color: #45a049; /* Color al pasar el ratón */
+}
+
+.container .back-link {
+    background-color: #4CAF50; /* Color del enlace */
+    border: 1px solid #4CAF50;
+}
+
+.container .back-link:hover {
+    background-color: #45a049; /* Color al pasar el ratón */
+}
+
+/* Estilos para las habitaciones */
+.habitaciones-lista {
+    margin-top: 20px;
+}
+
+.habitacion {
+    border: 1px solid #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Estilos para el formulario con name="primerform" */
+#primerform {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+#primerform input[type="date"],
+#primerform input[type="number"],
+#primerform input[type="submit"] {
+    margin-bottom: 15px; /* Espacio entre los campos y el botón */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%; /* Ajusta el ancho de los campos para que se adapten al contenedor */
+    max-width: 400px; /* Ajusta el ancho máximo del formulario */
+}
+
+#primerform input[type="submit"] {
+    background-color: #4CAF50; /* Color del botón */
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+#primerform input[type="submit"]:hover {
+    background-color: #45a049; /* Color al pasar el ratón */
+}
+.frente{
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+/* Estilo para las imágenes de las habitaciones */
+.imagen-habitacion {
+    width: 100%; /* Ajusta el ancho de la imagen al contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 10px; /* Redondea las esquinas de la imagen */
+    margin-bottom: 10px; /* Espacio debajo de la imagen */
+}
+.habitacion {
+    display: flex;
+    align-items: flex-start; /* Alinea el contenido al inicio del contenedor flex */
+    margin-bottom: 20px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro para legibilidad */
+}
+
+.habitacion-content {
+    flex: 1;
+}
+
+.imagen-habitacion {
+    max-width: 300px; /* Tamaño máximo para la imagen */
+    height: auto;
+    margin-left: 275px; /* Espacio entre la imagen y el contenido */
+}
+
+/* public/css/styles.css */
+
+/* Estilos para el footer */
+.footer {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro y opaco */
+    color: #fff; /* Texto en blanco para contraste */
+    text-align: center; /* Centra el texto */
+    padding: 20px; /* Espaciado interno */
+    width: 100%; /* Ocupa todo el ancho de la página */
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin-top: 20px; /* Espacio arriba del footer para separarlo del contenido superior */
+}
+
+/* Asegura que el footer esté al final del contenido */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el contenido ocupe al menos el alto de la pantalla */
+}
+
+.container {
+    flex: 1; /* Permite que el contenedor principal expanda para ocupar el espacio disponible */
+}
+
+#correccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

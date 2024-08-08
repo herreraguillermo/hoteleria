@@ -6,46 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Habitacion;
 use App\Models\Reserva;
 use App\Models\Huesped;
-
+use App\Models\Disponibilidad;
 
 class ReservaController extends Controller
 {
-    /* public function index()
-    {
-        // Código para listar las reservas
-        $reservas = Reserva::all();
-        return view('reservas.index', compact('reservas'));
-    } */
 
-    /* public function create()
-    {
-        // Código para mostrar el formulario de creación de reserva
-        // $habitaciones = Habitacion::all();
-        return view('reservas.create', compact('habitaciones'));
-        return view('reservas.mostrarreserva');
-    } */
-
-    /* public function store(Request $request)
-    {
-        // Código para almacenar una nueva reserva
-        $request->validate([
-            'Fecha_checkin' => 'required|date|after_or_equal:today',
-            'Fecha_checkout' => 'required|date|after:Fecha_checkin',
-            'idHuesped' => 'required|exists:Huespedes,idHuesped',
-            'idHabitacion' => 'required|integer',
-            'Cant_huespedes' => 'required|integer|min:1',
-        ]);
-
-        $reserva = new Reserva();
-        $reserva->Fecha_checkin = $request->input('Fecha_checkin');
-        $reserva->Fecha_checkout = $request->input('Fecha_checkout');
-        $reserva->idHuesped = $request->input('idHuesped');
-        $reserva->idHabitacion = $request->input('idHabitacion');
-        $reserva->Cant_huespedes = $request->input('Cant_huespedes');
-        $reserva->save();
-
-        return redirect('/reservas')->with('success', 'Reserva creada con éxito');
-    } */
 
     public function disponibilidad(Request $request)
     {
@@ -143,6 +108,18 @@ class ReservaController extends Controller
     public function destroy($id)
     {
         $reserva = Reserva::findOrFail($id);
+
+        // Obtener las fechas de check-in y check-out de la reserva
+        $fecha_checkin = $reserva->Fecha_checkin;
+        $fecha_checkout = $reserva->Fecha_checkout;
+        $idHabitacion = $reserva->idHabitacion;
+
+        // Actualizar la disponibilidad de la habitación en las fechas de la reserva
+        Disponibilidad::where('idHabitacion', $idHabitacion)
+            ->whereBetween('Fecha', [$fecha_checkin, $fecha_checkout])
+            ->update(['Disponible' => 1]);
+
+        // Eliminar la reserva
         $reserva->delete();
 
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva eliminada exitosamente.');

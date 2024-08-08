@@ -8,7 +8,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Panel Admin</a>
+        <a class="navbar-brand" href="#">Admin</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -20,13 +20,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.huespedes.index') }}">Huéspedes</a>
                 </li>
-                <li class="nav-item">
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"></form>
-                        @csrf
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                    
+                <li class="nav-item"><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                 </li>
             </ul>
         </div>

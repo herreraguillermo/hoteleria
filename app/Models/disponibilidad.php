@@ -20,6 +20,17 @@ class Disponibilidad extends Model {
         }
     }
 
+    public static function marcarDisponible($idHabitacion, $fechaInicio, $fechaFin) {
+        $dates = self::getDateRange($fechaInicio, $fechaFin);
+
+        foreach ($dates as $date) {
+            DB::table('Disponibilidad')->updateOrInsert(
+                ['idHabitacion' => $idHabitacion, 'Fecha' => $date],
+                ['Disponible' => true]
+            );
+        }
+    }
+
     private static function getDateRange($startDate, $endDate) {
         $dates = [];
         $currentDate = strtotime($startDate);
