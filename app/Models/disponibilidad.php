@@ -52,7 +52,7 @@ class Disponibilidad extends Model {
             $dates[] = date('Y-m-d', $currentDate);
             $currentDate = strtotime("+1 day", $currentDate);
         }
-
+        
         return $dates;
     }
 }

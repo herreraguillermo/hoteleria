@@ -156,6 +156,7 @@ protected function generarRangoFechas($fechaInicio, $fechaFin)
         $fecha_checkin = $reserva->Fecha_checkin;
         $fecha_checkout = $reserva->Fecha_checkout;
         $idHabitacion = $reserva->idHabitacion;
+        
 
         // Actualizar la disponibilidad de la habitación en las fechas de la reserva
         Disponibilidad::where('idHabitacion', $idHabitacion)

@@ -26,6 +26,7 @@ class Habitacion extends Model {
 
         return $habitaciones;
     }
+    
 
     protected $fillable = [
         'Numero',
@@ -33,5 +34,17 @@ class Habitacion extends Model {
         'Capacidad',
         'Clase',
     ];
+    //relacionadas a destruir habitaciones
+    public function reservasActivas()
+    {
+    return $this->hasMany(Reserva::class, 'idHabitacion')
+                ->where('Fecha_checkout', '>', now()); // Ejemplo para reservas futuras
+    }
+
+    public function tieneReservasActivas()
+    {
+    return $this->reservasActivas()->exists();
+    }
+
     
 }

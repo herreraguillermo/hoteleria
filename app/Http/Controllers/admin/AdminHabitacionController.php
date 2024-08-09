@@ -2,8 +2,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+
 use App\Models\Habitacion;
+use App\Models\Reserva;
+use App\Models\Disponibilidad;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
 
 class AdminHabitacionController extends Controller
 {
@@ -53,11 +59,20 @@ class AdminHabitacionController extends Controller
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada correctamente.');
     }
 
-    public function destroy($id)
-    {
-        $habitacion = Habitacion::findOrFail($id);
-        $habitacion->delete();
+    public function destroy($idHabitacion)
+{
+    DB::transaction(function () use ($idHabitacion) {
+        // Eliminar reservas asociadas a la habitación
+        Reserva::where('idHabitacion', $idHabitacion)->delete();
+        
+        // Eliminar disponibilidad asociada a la habitación
+        Disponibilidad::where('idHabitacion', $idHabitacion)->delete();
+        
+        // Finalmente, eliminar la habitación
+        Habitacion::find($idHabitacion)->delete();
+    });
 
-        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada correctamente.');
-    }
+    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
+}
+
 }
