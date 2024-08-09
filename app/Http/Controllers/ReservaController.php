@@ -87,22 +87,65 @@ class ReservaController extends Controller
     return view('admin.reservas.edit', compact('reserva', 'huespedes', 'habitaciones'));
 }
 
-
-    public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
-    $request->validate([
-        'Fecha_checkin' => 'required|date',
-        'Fecha_checkout' => 'required|date',
-        'Cant_huespedes' => 'required|integer',
-        'idHuesped' => 'required|exists:huespedes,idHuesped',
-        'idHabitacion' => 'required|exists:habitaciones,idHabitacion',
-    ]);
+    // Obtener la reserva actual
+    $reserva = Reserva::find($id);
 
-    $reserva = Reserva::findOrFail($id);
-    $reserva->update($request->only(['Fecha_checkin', 'Fecha_checkout', 'Cant_huespedes', 'idHuesped', 'idHabitacion']));
+    // Obtener los datos del formulario
+    $nuevaHabitacionId = $request->input('idHabitacion');
+    $nuevaFechaCheckin = $request->input('Fecha_checkin');
+    $nuevaFechaCheckout = $request->input('Fecha_checkout');
 
-    return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada exitosamente.');
+    // Obtener la habitación y las fechas antiguas
+    $habitacionActualId = $reserva->idHabitacion;
+    $fechaCheckinAntigua = $reserva->Fecha_checkin;
+    $fechaCheckoutAntigua = $reserva->Fecha_checkout;
+
+    // Marca la habitación antigua como disponible en las fechas antiguas
+    $this->marcarDisponibilidad($habitacionActualId, $fechaCheckinAntigua, $fechaCheckoutAntigua, true);
+
+    // Marca la nueva habitación como ocupada en las nuevas fechas
+    $this->marcarDisponibilidad($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout, false);
+
+    // Actualiza la reserva con la nueva habitación y fechas
+    $reserva->idHabitacion = $nuevaHabitacionId;
+    $reserva->Fecha_checkin = $nuevaFechaCheckin;
+    $reserva->Fecha_checkout = $nuevaFechaCheckout;
+    $reserva->save();
+
+    return redirect()->route('reservas.index')->with('success', 'Reserva actualizada correctamente');
+
 }
+
+protected function marcarDisponibilidad($habitacionId, $fechaCheckin, $fechaCheckout, $disponible)
+{
+    $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout);
+
+    foreach ($fechas as $fecha) {
+        Disponibilidad::updateOrCreate(
+            ['idHabitacion' => $habitacionId, 'fecha' => $fecha],
+            ['disponible' => $disponible]
+        );
+    }
+}
+
+protected function generarRangoFechas($fechaInicio, $fechaFin)
+{
+    $fechas = [];
+    $inicio = \Carbon\Carbon::parse($fechaInicio);
+    $fin = \Carbon\Carbon::parse($fechaFin);
+
+    while ($inicio->lte($fin)) {
+        $fechas[] = $inicio->format('Y-m-d');
+        $inicio->addDay();
+    }
+
+    return $fechas;
+}
+
+
+
 
 
     public function destroy($id)
@@ -113,6 +156,7 @@ class ReservaController extends Controller
         $fecha_checkin = $reserva->Fecha_checkin;
         $fecha_checkout = $reserva->Fecha_checkout;
         $idHabitacion = $reserva->idHabitacion;
+        
 
         // Actualizar la disponibilidad de la habitación en las fechas de la reserva
         Disponibilidad::where('idHabitacion', $idHabitacion)

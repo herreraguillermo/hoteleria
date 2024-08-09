@@ -97,11 +97,4 @@ class HabitacionesController extends Controller {
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
     }
 
-    public function destroy($id)
-    {
-        $habitacion = Habitacion::findOrFail($id);
-        $habitacion->delete();
-
-        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
-    }
 }
