@@ -14,7 +14,7 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         if (auth()->user()) {
-            return '/admin/habitaciones';
+            return '/admin/habitaciones'; // Redirección al hacer login
         }
 
         return '/';

@@ -97,6 +97,11 @@ public function update(Request $request, $id)
     $nuevaFechaCheckin = $request->input('Fecha_checkin');
     $nuevaFechaCheckout = $request->input('Fecha_checkout');
 
+    // Validar que la fecha de checkout no sea anterior a la fecha de checkin
+    if (strtotime($nuevaFechaCheckout) < strtotime($nuevaFechaCheckin)) {
+        return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
+    }
+
     // Obtener la habitación y las fechas antiguas
     $habitacionActualId = $reserva->idHabitacion;
     $fechaCheckinAntigua = $reserva->Fecha_checkin;

@@ -3,6 +3,10 @@
 @section('content')
 <div class="container">
     <h1>Editar Reserva</h1>
+    <p>Para el huesped: 
+        {{ $huespedes->first()->Nombre }} - {{ $huespedes->first()->Email }}
+    </p>
+    
     <form action="{{ route('admin.reservas.update', $reserva->idReserva) }}" method="POST">
         @csrf
         @method('PUT')
@@ -20,16 +24,6 @@
             <input type="number" class="form-control" id="Cant_huespedes" name="Cant_huespedes" value="{{ old('Cant_huespedes', $reserva->Cant_huespedes) }}" required>
         </div>
         <div class="form-group">
-            <label for="idHuesped">Huésped</label>
-            <select class="form-control" id="idHuesped" name="idHuesped" required>
-                @foreach($huespedes as $huesped)
-                    <option value="{{ $huesped->idHuesped }}" {{ $huesped->idHuesped == $reserva->idHuesped ? 'selected' : '' }}>
-                        {{ $huesped->Nombre }} ({{ $huesped->Email }})
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
             <label for="idHabitacion">Habitación</label>
             <select class="form-control" id="idHabitacion" name="idHabitacion" required>
                 @foreach($habitaciones as $habitacion)
@@ -43,3 +37,15 @@
     </form>
 </div>
 @endsection
+<script>
+    function validateDates() {
+        var fechaInicio = document.getElementById('Fecha_checkin').value;
+        var fechaFin = document.getElementById('Fecha_checkout').value;
+
+        if (new Date(fechaFin) <= new Date(fechaInicio)) {
+            alert("La fecha de salida no puede ser anterior a la fecha de llegada.");
+            return false;
+        }
+        return true;
+    }
+</script>
