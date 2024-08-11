@@ -1,0 +1,16 @@
+telefono que no permita num negativos
+
+Agregar Habitación:
+Que num, precio y capacidad no puedan ser negativos
+
+HABITACIONES:
+Al editar numero de habitación, que no pueda coincidar con un num de habitación ya existente
+Precio y capacidad no pueden ser núm negativos
+
+RESERVAS:
+Que al editar, checkout no puede ser anterior a check in
+Sacar el input de huesped (porque no vamos a cambiar de persona física y jurídica) xD
+No debería ocuparse una habitación ya reservada en la misma fecha
+
+HUESPEDES:
+DNI y teléfono no pueden ser num negativo
