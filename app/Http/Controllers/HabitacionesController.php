@@ -85,7 +85,17 @@ class HabitacionesController extends Controller {
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Numero' => 'required|string|max:255',
+            'Numero' => [
+                'required',
+                'numeric',
+                'min:0',
+                'integer',
+                    function ($attribute, $value, $fail) use ($id) {
+                        if (Habitacion::where('Numero', $value)->where('idHabitacion', '<>', $id)->exists()) {
+                            $fail('El número de habitación ya está en uso.');
+                    }
+                },
+            ],
             'Precio' => 'required|numeric',
             'Capacidad' => 'required|integer',
             'Clase' => 'required|string|max:255',

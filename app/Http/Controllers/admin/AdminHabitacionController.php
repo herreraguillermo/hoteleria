@@ -49,7 +49,6 @@ class AdminHabitacionController extends Controller
         $habitacion = Habitacion::findOrFail($id);
         return view('admin.habitaciones.edit', compact('habitacion'));
     }
-
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -64,6 +63,8 @@ class AdminHabitacionController extends Controller
 
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada correctamente.');
     }
+    
+
 
     public function destroy($idHabitacion)
 {
