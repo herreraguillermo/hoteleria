@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="Cant_huespedes">Cantidad de Huéspedes</label>
-            <input type="number" class="form-control" id="Cant_huespedes" name="Cant_huespedes" value="{{ old('Cant_huespedes', $reserva->Cant_huespedes) }}" required>
+            <input type="number" min="1" step="1" class="form-control" id="Cant_huespedes" name="Cant_huespedes" value="{{ old('Cant_huespedes', $reserva->Cant_huespedes) }}" required>
         </div>
         <div class="form-group">
             <label for="idHabitacion">Habitación</label>

@@ -7,15 +7,15 @@
         @csrf
         <div class="form-group">
             <label for="Numero">Número</label>
-            <input type="number" class="form-control" id="Numero" name="Numero" required>
+            <input type="number" min="0" step="1" class="form-control" id="Numero" name="Numero" required>
         </div>
         <div class="form-group">
             <label for="Precio">Precio</label>
-            <input type="number" class="form-control" id="Precio" name="Precio" required>
+            <input type="number" min="0" class="form-control" id="Precio" name="Precio" required>
         </div>
         <div class="form-group">
             <label for="Capacidad">Capacidad</label>
-            <input type="number" class="form-control" id="Capacidad" name="Capacidad" required>
+            <input type="number" min="1" step="1" class="form-control" id="Capacidad" name="Capacidad" required>
         </div>
         <div class="form-group">
             <label for="Clase">Clase</label>

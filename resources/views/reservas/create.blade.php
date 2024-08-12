@@ -17,7 +17,7 @@
         <input type="date" id="Fecha_checkout" name="Fecha_checkout" required>
         
         <label for="Cant_huespedes">Cantidad de Huéspedes:</label>
-        <input type="number" id="Cant_huespedes" name="Cant_huespedes" required>
+        <input type="number" min="0" step="1" id="Cant_huespedes" name="Cant_huespedes" required>
         
         <button type="submit">Reservar</button>
     </form>

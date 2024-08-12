@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label for="Telefono">Teléfono:</label>
-                <input type="number" id="Telefono" name="Telefono" required>
+                <input type="number" min="0" step="1" id="Telefono" name="Telefono" required>
             </div>
 
             <button type="submit" class="submit-button">Guardar</button>

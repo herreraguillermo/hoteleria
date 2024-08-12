@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label for="Telefono">Teléfono</label>
-            <input type="number" class="form-control" id="Telefono" name="Telefono" value="{{ old('Telefono') }}" required>
+            <input type="number" min="0" step="1" class="form-control" id="Telefono" name="Telefono" value="{{ old('Telefono') }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Crear Huésped</button>
     </form>
