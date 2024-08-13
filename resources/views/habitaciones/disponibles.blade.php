@@ -13,8 +13,9 @@
                 <div class="habitacion">
                     <div class="habitacion-info">
 
-                    <h3> {{ $habitacion->Clase}} {{$habitacion->Numero }}</h3>
-                    <p>Precio: {{ $habitacion->Precio }} US$</p>
+                    <h3>Por noche: {{ $habitacion->Precio }} US$ </h3>
+                    <p>{{ $habitacion->Clase}} {{$habitacion->Numero }}</p>
+                    <p><strong>Precio total:</strong> {{ $habitacion->precioTotal }} US$ </p>
                     <p>Capacidad: {{ $habitacion->Capacidad }}</p>
                     <form action="{{ route('Huespedes.create') }}" method="GET">
                         @csrf

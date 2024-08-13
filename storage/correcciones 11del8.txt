@@ -1,2 +1,0 @@
-RESERVAS:
-No debería ocuparse una habitación ya reservada en la misma fecha
