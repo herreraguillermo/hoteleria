@@ -139,11 +139,14 @@ body {
 .habitacion-content {
     flex: 1;
 }
-
+.habitacion-info {
+    flex: 2; /* Permite que ocupe el doble de espacio en comparación con otros elementos flexibles en el mismo contenedor */
+    margin-right: 50px; /* Espacio entre la información y la imagen */
+}
 .imagen-habitacion {
-    max-width: 300px; /* Tamaño máximo para la imagen */
+    max-width: 350px; /* Tamaño máximo para la imagen */
     height: auto;
-    margin-left: 275px; /* Espacio entre la imagen y el contenido */
+    margin-left: 10px; /* Espacio entre la imagen y el contenido */
 }
 
 /* public/css/styles.css */

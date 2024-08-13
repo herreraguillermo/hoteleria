@@ -7,7 +7,7 @@
         {{ $huespedes->first()->Nombre }} - {{ $huespedes->first()->Email }}
     </p>
     
-    <form action="{{ route('admin.reservas.update', $reserva->idReserva) }}" method="POST">
+    <form action="{{ route('admin.reservas.update', $reserva->idReserva) }}" onsubmit="return validateDates()" method="POST">
         @csrf
         @method('PUT')
 

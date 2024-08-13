@@ -1,5 +1,0 @@
-HABITACIONES:
-Al editar numero de habitación, que no pueda coincidar con un num de habitación ya existente
-
-RESERVAS:
-No debería ocuparse una habitación ya reservada en la misma fecha

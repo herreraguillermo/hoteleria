@@ -46,5 +46,20 @@ class Habitacion extends Model {
     return $this->reservasActivas()->exists();
     }
 
+    public function estaDisponible($fechaInicio, $fechaFin)
+    {
+        return !DB::table('reservas')
+            ->where('idHabitacion', $this->id)
+            ->where(function ($query) use ($fechaInicio, $fechaFin) {
+                $query->whereBetween('Fecha_checkin', [$fechaInicio, $fechaFin])
+                    ->orWhereBetween('Fecha_checkout', [$fechaInicio, $fechaFin])
+                    ->orWhere(function ($query) use ($fechaInicio, $fechaFin) {
+                        $query->where('Fecha_checkin', '<=', $fechaInicio)
+                                ->where('Fecha_checkout', '>=', $fechaFin);
+                    });
+            })
+            ->exists();
+    }
+
     
 }
