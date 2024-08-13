@@ -64,17 +64,7 @@ class HabitacionesController extends Controller {
         return view('admin.habitaciones.create');
     }
 
-    public function store(Request $request)
-    {
-        $habitacion = new Habitacion();
-        $habitacion->Numero = $request->input('Numero');
-        $habitacion->Precio = $request->input('Precio');
-        $habitacion->Capacidad = $request->input('Capacidad');
-        $habitacion->Clase = $request->input('Clase');
-        $habitacion->save();
-
-        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
-    }
+    
 
     public function edit($id)
     {
