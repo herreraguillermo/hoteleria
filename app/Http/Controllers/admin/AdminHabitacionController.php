@@ -31,18 +31,35 @@ class AdminHabitacionController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'Numero' => 'required',
-            'Precio' => 'required',
-            'Capacidad' => 'required',
-            'Clase' => 'required',
-        ]);
+{
+    // Validar que el número de habitación no exista ya en la base de datos
+    $request->validate([
+        'Numero' => [
+            'required',
+            'numeric',
+            'min:0',
+            'integer',
+            function ($attribute, $value, $fail) {
+                if (Habitacion::where('Numero', $value)->exists()) {
+                    $fail('El número de habitación ya está en uso.');
+                }
+            },
+        ],
+        'Precio' => 'required|numeric',
+        'Capacidad' => 'required|integer',
+        'Clase' => 'required|string',
+    ]);
 
-        Habitacion::create($request->all());
+    // Crear una nueva habitación si la validación pasa
+    $habitacion = new Habitacion();
+    $habitacion->Numero = $request->input('Numero');
+    $habitacion->Precio = $request->input('Precio');
+    $habitacion->Capacidad = $request->input('Capacidad');
+    $habitacion->Clase = $request->input('Clase');
+    $habitacion->save();
 
-        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada correctamente.');
-    }
+    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
+}
 
     public function edit($id)
     {

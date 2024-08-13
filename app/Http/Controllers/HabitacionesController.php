@@ -64,17 +64,7 @@ class HabitacionesController extends Controller {
         return view('admin.habitaciones.create');
     }
 
-    public function store(Request $request)
-    {
-        $habitacion = new Habitacion();
-        $habitacion->Numero = $request->input('Numero');
-        $habitacion->Precio = $request->input('Precio');
-        $habitacion->Capacidad = $request->input('Capacidad');
-        $habitacion->Clase = $request->input('Clase');
-        $habitacion->save();
-
-        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
-    }
+    
 
     public function edit($id)
     {
@@ -85,7 +75,17 @@ class HabitacionesController extends Controller {
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Numero' => 'required|string|max:255',
+            'Numero' => [
+                'required',
+                'numeric',
+                'min:0',
+                'integer',
+                    function ($attribute, $value, $fail) use ($id) {
+                        if (Habitacion::where('Numero', $value)->where('idHabitacion', '<>', $id)->exists()) {
+                            $fail('El número de habitación ya está en uso.');
+                    }
+                },
+            ],
             'Precio' => 'required|numeric',
             'Capacidad' => 'required|integer',
             'Clase' => 'required|string|max:255',
