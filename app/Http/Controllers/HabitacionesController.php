@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Habitacion;
 use App\Models\Disponibilidad;
+use Carbon\Carbon;
 
 class HabitacionesController extends Controller {
     
@@ -22,7 +23,15 @@ class HabitacionesController extends Controller {
         $ocupantes = $request->input('ocupantes');
         $orden = $request->input('ordenm', 'asc'); // Obtenemos el orden, por defecto ascendente
 
+       
+        // Convierte las fechas en instancias de Carbon
+        $fechaCheckin = Carbon::parse($fechaInicio);
+        $fechaCheckout = Carbon::parse($fechaFin);
+
+        // Calcula la diferencia en días
+        $diferenciaDias = $fechaCheckin->diffInDays($fechaCheckout);
         
+
         // Buscar habitaciones que cumplan con la capacidad
         $habitaciones = Habitacion::where('Capacidad', '>=', $ocupantes)->get();
         $habitacionesDisponibles = [];
@@ -33,10 +42,15 @@ class HabitacionesController extends Controller {
                 ->whereBetween('Fecha', [$fechaInicio, $fechaFin])
                 ->where('Disponible', false)
                 ->exists();
-
+                
             if (!$noDisponible) {
+                $habitacion->precioTotal = $diferenciaDias * $habitacion->Precio;
                 $habitacionesDisponibles[] = $habitacion;
+                
             }
+
+            
+        
         }
 
         // Ordenar las habitaciones disponibles por precio
@@ -48,7 +62,10 @@ class HabitacionesController extends Controller {
             }
         });
 
-        return view('habitaciones.disponibles', ['habitaciones' => $habitacionesDisponibles]);
+        return view('habitaciones.disponibles', [
+            'habitaciones' => $habitacionesDisponibles, 
+            'diferenciaDias' => $diferenciaDias,
+        ]);
     }
 
     // Para admin controller
