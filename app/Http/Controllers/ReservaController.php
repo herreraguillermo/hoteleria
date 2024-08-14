@@ -88,11 +88,13 @@ class ReservaController extends Controller
     {
         $reserva = Reserva::find($id);
 
+        $id_reserva = $reserva->idReserva;
+
         // Validación
         $request->validate([
             'Fecha_checkin' => 'required|date|after_or_equal:today',
             'Fecha_checkout' => 'required|date|after:Fecha_checkin',
-            /* 'ocupantes' => 'required|integer|min:1|max:5',  */
+            'Cant_huespedes' => 'required|integer|min:1|max:5',
             'idHabitacion' => 'required|exists:habitaciones,idHabitacion',
         ]);
 
@@ -104,10 +106,11 @@ class ReservaController extends Controller
             return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
         }
 
-        if (!$this->estaDisponible($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout)) {
+        if (!$this->estaDisponible($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout, $id_reserva)) {
             return redirect()->back()->withErrors(['idHabitacion' => 'La nueva habitación no está disponible en las fechas seleccionadas.']);
         }
 
+        // Inicia la transacción
         DB::beginTransaction();
         try {
             // Actualizar la reserva
@@ -125,9 +128,9 @@ class ReservaController extends Controller
         }
     }
 
-    public function estaDisponible($habitacionId, $fechaInicio, $fechaFin)
+    public function estaDisponible($habitacionId, $fechaInicio, $fechaFin, $id_reserva = null)
     {
-        return !DB::table('reservas')
+        $query = DB::table('reservas')
             ->where('idHabitacion', $habitacionId)
             ->where(function ($query) use ($fechaInicio, $fechaFin) {
                 $query->whereBetween('Fecha_checkin', [$fechaInicio, $fechaFin])
@@ -136,9 +139,16 @@ class ReservaController extends Controller
                         $query->where('Fecha_checkin', '<=', $fechaInicio)
                             ->where('Fecha_checkout', '>=', $fechaFin);
                     });
-            })
-            ->exists();
+            });
+
+        if ($id_reserva) {
+            $query->where('idReserva', '!=', $id_reserva);
+        }
+
+        // Depura la consulta SQL generada y los bindings
+        dd($query->toSql(), $query->getBindings(), $query->exists());
     }
+
 
     public function destroy($id)
     {
