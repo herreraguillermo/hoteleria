@@ -7,10 +7,11 @@ use App\Models\Habitacion;
 use App\Models\Reserva;
 use App\Models\Huesped;
 use App\Models\Disponibilidad;
-use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
+
+
     public function disponibilidad(Request $request)
     {
         $request->validate([
@@ -34,10 +35,10 @@ class ReservaController extends Controller
     
     public function show($token)
     {
-        $reserva = Reserva::where('token', $token)->firstOrFail();
-        $huesped = Huesped::findOrFail($reserva->idHuesped);
+    $reserva = Reserva::where('token', $token)->firstOrFail();
+    $huesped = Huesped::findOrFail($reserva->idHuesped);
 
-        return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
+    return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
     }
 
     //esto es nuevo para agregar admin
@@ -53,6 +54,8 @@ class ReservaController extends Controller
         return view('admin.reservas.index', compact('reservas', 'sort', 'order'));
     }
         
+    
+
     public function create()
     {
         $habitaciones = Habitacion::all();
@@ -88,38 +91,16 @@ class ReservaController extends Controller
 {
     // Obtener la reserva actual
     $reserva = Reserva::find($id);
-    public function edit($id)
-    {
-        $reserva = Reserva::findOrFail($id);
-        $huespedes = Huesped::all();
-        $habitaciones = Habitacion::all();
-        // Convertir las fechas a formato DateTime
-        $reserva->Fecha_checkin = \Carbon\Carbon::parse($reserva->Fecha_checkin);
-        $reserva->Fecha_checkout = \Carbon\Carbon::parse($reserva->Fecha_checkout);
-        return view('admin.reservas.edit', compact('reserva', 'huespedes', 'habitaciones'));
+
+    // Obtener los datos del formulario
+    $nuevaHabitacionId = $request->input('idHabitacion');
+    $nuevaFechaCheckin = $request->input('Fecha_checkin');
+    $nuevaFechaCheckout = $request->input('Fecha_checkout');
+
+    // Validar que la fecha de checkout no sea anterior a la fecha de checkin
+    if (strtotime($nuevaFechaCheckout) < strtotime($nuevaFechaCheckin)) {
+        return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
     }
-
-    public function update(Request $request, $id)
-    {
-        $reserva = Reserva::find($id);
-
-        $id_reserva = $reserva->idReserva;
-
-        // Validación
-        $request->validate([
-            'Fecha_checkin' => 'required|date|after_or_equal:today',
-            'Fecha_checkout' => 'required|date|after:Fecha_checkin',
-            'Cant_huespedes' => 'required|integer|min:1|max:5',
-            'idHabitacion' => 'required|exists:habitaciones,idHabitacion',
-        ]);
-
-        $nuevaHabitacionId = $request->input('idHabitacion');
-        $nuevaFechaCheckin = $request->input('Fecha_checkin');
-        $nuevaFechaCheckout = $request->input('Fecha_checkout');
-
-        if (strtotime($nuevaFechaCheckout) < strtotime($nuevaFechaCheckin)) {
-            return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
-        }
 
     // Obtener la habitación y las fechas antiguas
     $habitacionActualId = $reserva->idHabitacion;
@@ -144,20 +125,6 @@ class ReservaController extends Controller
     $reserva->Fecha_checkin = $nuevaFechaCheckin;
     $reserva->Fecha_checkout = $nuevaFechaCheckout;
     $reserva->save();
-        if (!$this->estaDisponible($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout, $id_reserva)) {
-            return redirect()->back()->withErrors(['idHabitacion' => 'La nueva habitación no está disponible en las fechas seleccionadas.']);
-        }
-
-        // Inicia la transacción
-        DB::beginTransaction();
-        try {
-            // Actualizar la reserva
-            $reserva->idHabitacion = $nuevaHabitacionId;
-            $reserva->Fecha_checkin = $nuevaFechaCheckin;
-            $reserva->Fecha_checkout = $nuevaFechaCheckout;
-            $reserva->save();
-
-            DB::commit();
 
     return redirect()->route('reservas.index')->with('success', 'Reserva actualizada correctamente');
 }
@@ -210,33 +177,6 @@ protected function generarRangoFechas($fechaInicio, $fechaFin, $disponible = tru
 
     return $fechas;
 }
-            return redirect()->route('reservas.index')->with('success', 'Reserva actualizada correctamente');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->withErrors(['error' => 'Ocurrió un error al actualizar la reserva.']);
-        }
-    }
-
-    public function estaDisponible($habitacionId, $fechaInicio, $fechaFin, $id_reserva = null)
-    {
-        $query = DB::table('reservas')
-            ->where('idHabitacion', $habitacionId)
-            ->where(function ($query) use ($fechaInicio, $fechaFin) {
-                $query->whereBetween('Fecha_checkin', [$fechaInicio, $fechaFin])
-                    ->orWhereBetween('Fecha_checkout', [$fechaInicio, $fechaFin])
-                    ->orWhere(function ($query) use ($fechaInicio, $fechaFin) {
-                        $query->where('Fecha_checkin', '<=', $fechaInicio)
-                            ->where('Fecha_checkout', '>=', $fechaFin);
-                    });
-            });
-
-        if ($id_reserva) {
-            $query->where('idReserva', '!=', $id_reserva);
-        }
-
-        // Depura la consulta SQL generada y los bindings
-        dd($query->toSql(), $query->getBindings(), $query->exists());
-    }
 
 
     public function destroy($id)
@@ -259,4 +199,5 @@ protected function generarRangoFechas($fechaInicio, $fechaFin, $disponible = tru
 
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva eliminada exitosamente.');
     }
+    
 }
