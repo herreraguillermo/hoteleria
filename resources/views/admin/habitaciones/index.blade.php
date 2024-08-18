@@ -20,7 +20,7 @@
                 <td>{{ $habitacion->Numero }}</td>
                 <td>{{ $habitacion->Precio }}</td>
                 <td>{{ $habitacion->Capacidad }}</td>
-                <td>{{ $habitacion->Clase }}</td>
+                <td>{{ $habitacion->Clase->nombre }}</td>
                 <td>
                     <a href="{{ route('admin.habitaciones.edit', ['id' => $habitacion->idHabitacion]) }}" class="btn btn-warning">Editar</a>
                     <form action="{{ route('admin.habitaciones.destroy', ['id' => $habitacion->idHabitacion]) }}" method="POST" style="display:inline-block;">

@@ -7,26 +7,15 @@ use Illuminate\Http\Request;
 
 class ClaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $clases = Clase::all();
         return view('admin.clases.index', compact('clases'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.clases.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -42,10 +31,6 @@ class ClaseController extends Controller
     
         return redirect()->route('admin.clases.index')->with('success', 'Clase creada exitosamente.');
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Clase $clase)
     {
         //

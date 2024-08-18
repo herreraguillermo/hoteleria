@@ -15,4 +15,9 @@ class Clase extends Model
     protected $fillable = [
         'nombre', 'precio'/* , 'imagen' */
     ];
+
+    public function habitaciones()
+    {
+        return $this->hasMany(Habitacion::class, 'id_clase', 'id');
+    }
 }

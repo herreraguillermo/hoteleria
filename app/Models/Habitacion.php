@@ -32,7 +32,7 @@ class Habitacion extends Model {
         'Numero',
         'Precio',
         'Capacidad',
-        'Clase',
+        'id_clase', 
     ];
     //relacionadas a destruir habitaciones
     public function reservasActivas()
@@ -63,7 +63,7 @@ class Habitacion extends Model {
 
     public function clase()
     {
-        return $this->belongsTo(Clase::class, 'Clase', 'id'); // 'Clase' es la columna en la tabla habitaciones que almacena el id de la clase
+        return $this->belongsTo(Clase::class, 'id_clase', 'id'); // 'Clase' es la columna en la tabla habitaciones que almacena el id de la clase
     }
     
 }

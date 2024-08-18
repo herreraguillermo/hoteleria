@@ -24,7 +24,7 @@
                 @foreach($clases as $clase)
                     <option value="{{ $clase->id }}">{{ $clase->nombre }}</option>
                 @endforeach
-        </select>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>

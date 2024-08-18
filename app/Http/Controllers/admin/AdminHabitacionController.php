@@ -30,8 +30,8 @@ class AdminHabitacionController extends Controller
     
     public function create()
     {
-            $clases = Clase::all(); // O utiliza algún filtro específico si es necesario
-            return view('admin.habitaciones.create', compact('clases'));
+        $clases = Clase::all(); // O utiliza algún filtro específico si es necesario
+        return view('admin.habitaciones.create', compact('clases'));
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class AdminHabitacionController extends Controller
     $habitacion->Numero = $request->input('Numero');
     $habitacion->Precio = $request->input('Precio');
     $habitacion->Capacidad = $request->input('Capacidad');
-    $habitacion->Clase = $request->input('Clase');
+    $habitacion->id_clase = $request->input('Clase');
     $habitacion->save();
 
     return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
