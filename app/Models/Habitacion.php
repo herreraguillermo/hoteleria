@@ -61,5 +61,9 @@ class Habitacion extends Model {
             ->exists();
     }
 
+    public function clase()
+    {
+        return $this->belongsTo(Clase::class, 'Clase', 'id'); // 'Clase' es la columna en la tabla habitaciones que almacena el id de la clase
+    }
     
 }

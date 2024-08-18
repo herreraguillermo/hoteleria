@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HabitacionesController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\HuespedController;
+use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminHabitacionController;
@@ -32,6 +33,7 @@ Route::post('/huespedes', [HuespedController::class, 'store'])->name('usuarios.s
     Route::resource('habitaciones', AdminHabitacionController::class , ['as' => 'admin']);
     Route::resource('reservas', ReservaController::class , ['as' => 'admin']);
     Route::resource('huespedes', HuespedController::class , ['as' => 'admin']);
+    Route::resource('clases', ClaseController::class , ['as' => 'admin']);
     Route::get('/admin/habitaciones/{id}/edit', [HabitacionesController::class, 'edit'])->name('admin.habitaciones.edit');
     Route::put('/admin/habitaciones/{id}', [HabitacionesController::class, 'update'])->name('admin.habitaciones.update');
     Route::delete('/habitaciones/{id}', [AdminHabitacionController::class, 'destroy'])->name('admin.habitaciones.destroy');

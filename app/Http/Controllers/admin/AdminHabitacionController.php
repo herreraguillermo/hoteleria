@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Habitacion;
 use App\Models\Reserva;
 use App\Models\Disponibilidad;
+use App\Models\Clase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,19 +16,22 @@ class AdminHabitacionController extends Controller
 {
     public function index(Request $request)
     {
-        $habitaciones = Habitacion::all();
-        $sort = $request->input('sort', 'Numero'); // Por defecto ordena por número de habitación
-        $direction = $request->input('direction', 'asc'); // Por defecto en orden ascendente
+        /* $habitaciones = Habitacion::all(); */
+        $habitaciones = Habitacion::with('clase')->orderBy($request->input('sort', 'Numero'), $request->input('direction', 'asc'))->get();
+        $clases = Clase::all();
+        /* $sort = $request->input('sort', 'Numero'); // Por defecto ordena por número de habitación
+        $direction = $request->input('direction', 'asc'); */ // Por defecto en orden ascendente
 
-        $habitaciones = Habitacion::orderBy($sort, $direction)->get();
+        /* $habitaciones = Habitacion::orderBy($sort, $direction)->get(); */
 
-        return view('admin.habitaciones.index', compact('habitaciones', 'sort', 'direction'));
+        return view('admin.habitaciones.index', compact('habitaciones', 'clases'));
   
     }
     
     public function create()
     {
-        return view('admin.habitaciones.create');
+            $clases = Clase::all(); // O utiliza algún filtro específico si es necesario
+            return view('admin.habitaciones.create', compact('clases'));
     }
 
     public function store(Request $request)
@@ -47,7 +51,7 @@ class AdminHabitacionController extends Controller
         ],
         'Precio' => 'required|numeric',
         'Capacidad' => 'required|integer',
-        'Clase' => 'required|string',
+        'Clase' => 'required|integer',
     ]);
 
     // Crear una nueva habitación si la validación pasa

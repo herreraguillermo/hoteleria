@@ -19,7 +19,12 @@
         </div>
         <div class="form-group">
             <label for="Clase">Clase</label>
-            <input type="text" class="form-control" id="Clase" name="Clase" required>
+            <select class="form-control" id="Clase" name="Clase" required>
+                <option value="" disabled selected>Seleccione una clase</option>
+                @foreach($clases as $clase)
+                    <option value="{{ $clase->id }}">{{ $clase->nombre }}</option>
+                @endforeach
+        </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
