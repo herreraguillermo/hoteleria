@@ -35,6 +35,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.huespedes.index') }}">Huéspedes</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.clases.index') }}">Clases</a>
+                </li>
                 <li class="nav-item"><form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
