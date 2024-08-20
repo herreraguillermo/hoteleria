@@ -39,7 +39,7 @@ class ClaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Clase $id)
+    public function edit($id)
     {
         $clases = Clase::findOrFail($id);
         return view('admin.clases.edit', compact('clases'));
@@ -48,11 +48,11 @@ class ClaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Clase $id)
+    public function update(Request $request, $id)
     {
         $clase = clase::findOrFail($id);
-        $clase->nombre = $request->input('Nombre');
-        $clase->precio = $request->input('Documento');
+        $clase->nombre = $request->input('nombre');
+        $clase->precio = $request->input('precio');
         $clase->save();
 
         return redirect()->route('admin.clases.index')->with('success', 'Clase actualizada exitosamente.');

@@ -68,7 +68,9 @@ class AdminHabitacionController extends Controller
     public function edit($id)
     {
         $habitacion = Habitacion::findOrFail($id);
-        return view('admin.habitaciones.edit', compact('habitacion'));
+        $clases = Clase::all();
+        
+        return view('admin.habitaciones.edit', compact('habitacion', 'clases'));
     }
 
     public function update(Request $request, $id)
@@ -81,6 +83,7 @@ class AdminHabitacionController extends Controller
         ]);
 
         $habitacion = Habitacion::findOrFail($id);
+        $habitacion->id_clase = $request->input('Clase');
         $habitacion->update($request->all());
 
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada correctamente.');

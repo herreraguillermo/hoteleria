@@ -21,8 +21,16 @@
         </div>
         <div class="form-group">
             <label for="Clase">Clase</label>
-            <input type="text" class="form-control" id="Clase" name="Clase" value="{{ old('Clase', $habitacion->Clase) }}" required>
+            <select class="form-control" id="Clase" name="Clase" required>
+                <option value="{{ old('Clase', $habitacion->Clase) }}" disabled selected></option>
+                @foreach($clases as $clase)
+                    <option value="{{ $clase->id }}" {{ old('Clase', $habitacion->Clase) == $clase->id ? 'selected' : '' }}>
+                        {{ $clase->nombre }}
+                    </option>
+                @endforeach
+            </select>
         </div>
+        
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
 </div>

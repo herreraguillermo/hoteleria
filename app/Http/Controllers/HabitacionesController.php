@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Habitacion;
 use App\Models\Disponibilidad;
+use App\Models\Clase;
 use Carbon\Carbon;
 
 class HabitacionesController extends Controller {
@@ -86,7 +87,9 @@ class HabitacionesController extends Controller {
     public function edit($id)
     {
         $habitacion = Habitacion::findOrFail($id);
-        return view('admin.habitaciones.edit', compact('habitacion'));
+        $clases = Clase::all();
+        
+        return view('admin.habitaciones.edit', compact('habitacion', 'clases'));
     }
 
     public function update(Request $request, $id)
@@ -105,7 +108,7 @@ class HabitacionesController extends Controller {
             ],
             'Precio' => 'required|numeric',
             'Capacidad' => 'required|integer',
-            'Clase' => 'required|string|max:255',
+            'Clase' => 'required|integer'
         ]);
 
         $habitacion = Habitacion::findOrFail($id);
