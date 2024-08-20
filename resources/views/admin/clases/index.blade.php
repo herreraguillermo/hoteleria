@@ -20,12 +20,12 @@
                 <td>{{ $clase->precio }}</td>
                 <td></td>
                 <td>
-                    {{--  <a href="{{ route('admin.huespedes.edit', $huesped->idHuesped) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('admin.huespedes.destroy', $huesped->idHuesped) }}" method="POST" style="display:inline-block;">
+                <a href="{{ route('admin.clases.edit', $clase->id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ route('admin.clases.destroy', $clase->id) }}" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </form>  --}}
+                    </form>
                 </td>
             </tr>
             @endforeach
