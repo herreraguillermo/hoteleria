@@ -28,7 +28,7 @@
             <select class="form-control" id="idHabitacion" name="idHabitacion" required>
                 @foreach($habitaciones as $habitacion)
                     <option value="{{ $habitacion->idHabitacion }}" {{ $habitacion->idHabitacion == $reserva->idHabitacion ? 'selected' : '' }}>
-                        {{ $habitacion->Clase }} {{ $habitacion->Numero }}
+                        {{ $habitacion->Clase->nombre }} {{ $habitacion->Numero }}
                     </option>
                 @endforeach
             </select>
