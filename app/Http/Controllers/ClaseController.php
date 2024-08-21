@@ -27,6 +27,7 @@ class ClaseController extends Controller
         $clase = new Clase();
         $clase->Precio = $request->input('precio');
         $clase->Nombre = $request->input('nombre');
+        $clase->descripcion = $request->input('descripcion');
         $clase->save();
     
         return redirect()->route('admin.clases.index')->with('success', 'Clase creada exitosamente.');
@@ -53,6 +54,7 @@ class ClaseController extends Controller
         $clase = clase::findOrFail($id);
         $clase->nombre = $request->input('nombre');
         $clase->precio = $request->input('precio');
+        $clase->descripcion = $request->input('descripcion');
         $clase->save();
 
         return redirect()->route('admin.clases.index')->with('success', 'Clase actualizada exitosamente.');

@@ -13,7 +13,7 @@ class Clase extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nombre', 'precio'/* , 'imagen' */
+        'nombre', 'precio', 'descripcion'
     ];
 
     public function habitaciones()

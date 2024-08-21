@@ -9,7 +9,7 @@
             <tr>
                 <th>Clase</th>
                 <th>Precio</th>
-                <th>Imagen</th>
+                <th>Descripción</th>
                 <th></th>
             </tr>
         </thead>
@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $clase->nombre }}</td>
                 <td>{{ $clase->precio }}</td>
-                <td></td>
+                <td>{{ $clase->descripcion }}</td>
                 <td>
                 <a href="{{ route('admin.clases.edit', $clase->id) }}" class="btn btn-warning">Editar</a>
                     <form action="{{ route('admin.clases.destroy', $clase->id) }}" method="POST" style="display:inline-block;">

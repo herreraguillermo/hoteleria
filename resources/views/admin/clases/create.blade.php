@@ -13,6 +13,10 @@
             <label for="clase">Nombre de la Clase</label>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
+        <div class="form-group">
+            <label for="clase">Descripción</label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 </div>
