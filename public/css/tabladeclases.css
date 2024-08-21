@@ -1,0 +1,74 @@
+
+/*en el panel admin*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #202020;
+    color: white;
+    text-align: left;
+    padding: 10px;
+}
+
+tbody td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #ddd;
+}
+
+td a.btn {
+    margin-right: 5px;
+}
+
+td form {
+    margin: 0;
+}
+
+td {
+    vertical-align: top;
+}
+
+/* Controlar el ancho de la columna de Descripción */
+td:nth-child(3) {
+    max-width: 300px; /* Ajusta este valor según sea necesario */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Asegurar que la tabla no se deforme */
+table, th, td {
+    table-layout: fixed;
+}
+
+td a.btn-warning {
+    color: white;
+    background-color: #FFC107;
+    border: none;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+td a.btn-danger, td button.btn-danger {
+    color: white;
+    background-color: #DC3545;
+    border: none;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+td button.btn-danger {
+    display: inline-block;
+}

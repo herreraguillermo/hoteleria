@@ -55,7 +55,7 @@ class ReservaController extends Controller
         // Aplicar el filtro si hay un documento
         if ($documento) {
             $query->whereHas('huesped', function($query) use ($documento) {
-                $query->where('Documento', 'like', "%{$documento}%");
+                $query->where('Documento', 'like', "{$documento}%");
             });
         }
 

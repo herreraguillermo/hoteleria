@@ -93,8 +93,7 @@ body {
     align-items: center; /* Centra los elementos horizontalmente */
 }
 
-#primerform input[type="date"],
-#primerform input[type="number"],
+#primerform input,
 #primerform input[type="submit"] {
     margin-bottom: 15px; /* Espacio entre los campos y el botón */
     padding: 10px;

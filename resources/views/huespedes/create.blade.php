@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <h1 class="frente">Datos para la reserva</h1>
-        <form id="correccion" action="{{ route('Huespedes.store') }}" method="POST">
+        <form id="primerform" name="primerform" action="{{ route('Huespedes.store') }}" method="POST">
             @csrf
             <input type="hidden" name="idHabitacion" value="{{ request('idHabitacion') }}">
             <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">

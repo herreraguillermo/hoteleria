@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+<link rel="stylesheet" href="{{ asset('css/tabladeclases.css') }}">
 
 @section('content')
 <div class="container">
@@ -10,7 +11,7 @@
                 <th>Clase</th>
                 <th>Precio</th>
                 <th>Descripción</th>
-                <th></th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
