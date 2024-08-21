@@ -14,7 +14,7 @@
                     <div class="habitacion-info">
 
                     <h3>Por noche: {{ $habitacion->Precio }} US$ </h3>
-                    <p>{{ $habitacion->Clase}} {{$habitacion->Numero }}</p>
+                    <p> {{ $habitacion->Clase->nombre}} {{$habitacion->Numero }}</p>
                     <p><strong>Precio total:</strong> {{ $habitacion->precioTotal }} US$ </p>
                     <p>Capacidad: {{ $habitacion->Capacidad }}</p>
                     <form action="{{ route('Huespedes.create') }}" method="GET">
@@ -29,7 +29,7 @@
 
                     @php
                     $imagen = 'default.jpg'; // Imagen por defecto en caso de que la clase no se encuentre
-                    switch (strtolower($habitacion->Clase)) {
+                    switch (strtolower($habitacion->Clase->nombre)) {
                         case 'standard':
                             $imagen = 'standard.jpg';
                             break;
