@@ -26,6 +26,9 @@ Route::resource('admin/reservas', ReservaController::class);
 
 Route::resource('Huespedes', HuespedController::class);
 Route::post('/huespedes', [HuespedController::class, 'store'])->name('usuarios.store');
+Route::get('/reservas', [Reservacontroller::class, 'index'])->name('admin.reserva.index');
+
+
 
 // Rutas del panel de administración
  Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {

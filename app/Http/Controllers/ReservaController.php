@@ -45,15 +45,27 @@ class ReservaController extends Controller
 
     public function index(Request $request)
     {
-        $reservas = Reserva::all();
-        $sort = $request->get('sort', 'Fecha_checkin'); // Default sort column
-        $order = $request->get('order', 'asc'); // Default order
+        $documento = $request->input('documento'); // Obtener el valor del filtro
+        $sort = $request->get('sort', 'Fecha_checkin'); // Columna de ordenamiento por defecto
+        $order = $request->get('order', 'asc'); // Orden por defecto
 
-        $reservas = Reserva::orderBy($sort, $order)->paginate(10); // Paginate results
-        
-        return view('admin.reservas.index', compact('reservas', 'sort', 'order'));
+        // Crear una consulta base
+        $query = Reserva::query();
+
+        // Aplicar el filtro si hay un documento
+        if ($documento) {
+            $query->whereHas('huesped', function($query) use ($documento) {
+                $query->where('Documento', 'like', "%{$documento}%");
+            });
+        }
+
+        // Aplicar el ordenamiento y la paginación
+        $reservas = $query->orderBy($sort, $order)->paginate(10);
+
+        // Pasar los datos a la vista
+        return view('admin.reservas.index', compact('reservas', 'sort', 'order', 'documento'));
     }
-        
+
     
 
     public function create()

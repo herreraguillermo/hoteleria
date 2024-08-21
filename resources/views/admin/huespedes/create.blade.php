@@ -1,10 +1,14 @@
 @extends('layouts.admin')
 
 @section('content')
+
 <div class="container">
     <h1>Crear Huésped</h1>
 
-    @if ($errors->any())
+    
+
+    <form id="huespedForm" action="{{ route('huesped.store') }}" method="POST">
+        @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -13,30 +17,46 @@
             </ul>
         </div>
     @endif
-
-    <form action="{{ route('admin.huespedes.store') }}" method="POST">
+    
         @csrf
-        <div class="form-group">
-            <label for="Nombre">Nombre</label>
-            <input type="text" class="form-control" id="Nombre" name="Nombre" value="{{ old('Nombre') }}" required>
+        <div>
+            <label for="Nombre">Nombre:</label>
+            <input type="text" name="Nombre" value="{{ old('Nombre') }}" maxlength="255" required>
         </div>
-        <div class="form-group">
-            <label for="Documento">Documento</label>
-            <input type="text" class="form-control" id="Documento" name="Documento" value="{{ old('Documento') }}" required>
+        <div>
+            <label for="Documento">Documento:</label>
+            <input type="text" name="Documento" value="{{ old('Documento') }}" maxlength="20" required>
         </div>
-        <div class="form-group">
-            <label for="Nacionalidad">Nacionalidad</label>
-            <input type="text" class="form-control" id="Nacionalidad" name="Nacionalidad" value="{{ old('Nacionalidad') }}" required>
+        <div>
+            <label for="Nacionalidad">Nacionalidad:</label>
+            <input type="text" name="Nacionalidad" value="{{ old('Nacionalidad') }}" maxlength="20" required>
+            <small id="nacionalidadError" style="color: red; display: none;">Debe tener 20 caracteres o menos.</small>
         </div>
-        <div class="form-group">
-            <label for="Email">Email</label>
-            <input type="email" class="form-control" id="Email" name="Email" value="{{ old('Email') }}" required>
+        <div>
+            <label for="Email">Email:</label>
+            <input type="email" name="Email" value="{{ old('Email') }}" maxlength="255" required>
         </div>
-        <div class="form-group">
-            <label for="Telefono">Teléfono</label>
-            <input type="number" min="0" step="1" class="form-control" id="Telefono" name="Telefono" value="{{ old('Telefono') }}" required>
+        <div>
+            <label for="Telefono">Teléfono:</label>
+            <input type="text" name="Telefono" value="{{ old('Telefono') }}" maxlength="15" required>
         </div>
-        <button type="submit" class="btn btn-primary">Crear Huésped</button>
+        <button type="submit">Guardar</button>
     </form>
+    
+    <script>
+        document.getElementById('huespedForm').addEventListener('submit', function(event) {
+            var nacionalidadInput = document.querySelector('input[name="Nacionalidad"]');
+            var nacionalidadError = document.getElementById('nacionalidadError');
+            
+            if (nacionalidadInput.value.length > 20) {
+                nacionalidadError.style.display = 'block';
+                event.preventDefault(); // Evita el envío del formulario
+            } else {
+                nacionalidadError.style.display = 'none';
+            }
+        });
+    </script>
+    
+    
 </div>
 @endsection
