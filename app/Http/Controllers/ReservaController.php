@@ -8,10 +8,12 @@ use App\Models\Reserva;
 use App\Models\Huesped;
 use App\Models\Disponibilidad;
 
+use App\Mail\ConfirmacionReserva;
+use Illuminate\Support\Facades\Mail;
+
 class ReservaController extends Controller
 {
-
-
+    
     public function disponibilidad(Request $request)
     {
         $request->validate([
@@ -84,6 +86,8 @@ class ReservaController extends Controller
         $reserva->idHabitacion = $request->input('idHabitacion');
         $reserva->Cant_huespedes = $request->input('Cant_huespedes');
         $reserva->save();
+
+        Mail::to($request->input('email'))->send(new ConfirmacionReserva($reserva));
 
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva creada exitosamente.');
     }

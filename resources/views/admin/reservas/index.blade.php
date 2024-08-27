@@ -31,7 +31,7 @@
                 <td>{{$reserva->huesped->Documento}}</td>
                 <td>
                     <a href="{{ route('admin.reservas.edit', $reserva->idReserva) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('admin.reservas.destroy', $reserva->idReserva) }}" method="POST" style="display:inline-block;">
+                    <form action="{{ route('admin.reservas.destroy', $reserva->idReserva) }}" method="POST" style="display:inline-block;" onsubmit="return confirmDelete('{{ $reserva->huesped->nombre }}');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>

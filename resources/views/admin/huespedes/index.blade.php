@@ -25,7 +25,7 @@
                 <td>{{ $huesped->Telefono }}</td>
                 <td>
                     <a href="{{ route('admin.huespedes.edit', $huesped->idHuesped) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('admin.huespedes.destroy', $huesped->idHuesped) }}" method="POST" style="display:inline-block;">
+                    <form action="{{ route('admin.huespedes.destroy', $huesped->idHuesped) }}" method="POST" style="display:inline-block;" onsubmit="return confirmDelete('{{ $huesped->nombre }}');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>

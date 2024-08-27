@@ -22,7 +22,7 @@
                 <td>{{ $clase->descripcion }}</td>
                 <td>
                 <a href="{{ route('admin.clases.edit', $clase->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('admin.clases.destroy', $clase->id) }}" method="POST" style="display:inline-block;">
+                    <form action="{{ route('admin.clases.destroy', $clase->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirmDelete('{{ $clase->nombre }}');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>
