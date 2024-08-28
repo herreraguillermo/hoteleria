@@ -13,18 +13,18 @@
                 <div class="habitacion">
                     <div class="habitacion-info">
 
-                    <h3>Por noche: {{ $habitacion->Precio }} US$ </h3>
-                    <p> {{ $habitacion->Clase->nombre}} {{$habitacion->Numero }}</p>
-                    <p><strong>Precio total:</strong> {{ $habitacion->precioTotal }} US$ </p>
-                    <p>Capacidad: {{ $habitacion->Capacidad }}</p>
-                    <form action="{{ route('Huespedes.create') }}" method="GET">
-                        @csrf
-                        <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
-                        <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
-                        <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
-                        <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
-                        <button type="submit" class="submit-button">Reservar</button>
-                    </form>
+                        <h3>Por noche: {{ $habitacion->Precio }} US$ </h3>
+                        <p> {{ $habitacion->Clase->nombre}} {{$habitacion->Numero }}</p>
+                        <p><strong>Precio total:</strong> {{ $habitacion->precioTotal }} US$ </p>
+                        <p>Capacidad: {{ $habitacion->Capacidad }}</p>
+                        <form action="{{ route('Huespedes.create') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
+                            <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
+                            <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
+                            <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
+                            <button type="submit" class="submit-button">Reservar</button>
+                        </form>
                     </div>
 
                     @php
@@ -40,11 +40,9 @@
                             $imagen = 'suite.jpg';
                             break;
                     }
-                @endphp
-                <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion">
+                    @endphp
+                    <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion">
                 
-
-
                 </div>
                 @endforeach
             </div>
