@@ -68,6 +68,9 @@ class AdminHabitacionController extends Controller
     public function edit($id)
     {
         $habitacion = Habitacion::findOrFail($id);
+        if ($habitacion->reservas()->count() > 0) {
+            return redirect()->route('admin.habitaciones.index')->with('error', 'No se puede eliminar la habitación porque tiene reservas activas.');
+        }
         $clases = Clase::all();
         
         return view('admin.habitaciones.edit', compact('habitacion', 'clases'));
@@ -91,6 +94,13 @@ class AdminHabitacionController extends Controller
 
     public function destroy($idHabitacion)
 {
+    $habitacion = Habitacion::findOrFail($idHabitacion);
+
+    // Verificar si la habitación tiene reservas asociadas
+    if ($habitacion->reservasActivas()->count() > 0) {
+        return redirect()->route('admin.habitaciones.index')->with('error', 'No se puede eliminar la habitación porque tiene reservas activas.');
+    }
+
     DB::transaction(function () use ($idHabitacion) {
         // Eliminar reservas asociadas a la habitación
         Reserva::where('idHabitacion', $idHabitacion)->delete();

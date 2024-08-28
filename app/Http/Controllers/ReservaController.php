@@ -142,7 +142,7 @@ class ReservaController extends Controller
     $reserva->Fecha_checkout = $nuevaFechaCheckout;
     $reserva->save();
 
-    return redirect()->route('reservas.index')->with('success', 'Reserva actualizada correctamente');
+    return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada correctamente');
 }
 
 protected function esHabitacionDisponible($habitacionId, $fechaCheckin, $fechaCheckout)

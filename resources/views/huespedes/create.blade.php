@@ -14,30 +14,20 @@
             <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
             <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
 
-            <div class="form-group">
-                <label for="Nombre">Nombre:</label>
-                <input type="text" id="Nombre" name="Nombre" required>
-            </div>
+            <label for="Nombre">Nombre:</label>
+            <input type="text" id="Nombre" name="Nombre" required>
 
-            <div class="form-group">
-                <label for="Nacionalidad">País:</label>
-                <input type="text" id="Nacionalidad" name="Nacionalidad" required>
-            </div>
+            <label for="Nacionalidad">País:</label>
+            <input type="text" id="Nacionalidad" name="Nacionalidad" required>
 
-            <div class="form-group">
-                <label for="Documento">Documento/ ID:</label>
-                <input type="text" id="Documento" name="Documento" required>
-            </div>
-
-            <div class="form-group">
-                <label for="Email">Email:</label>
-                <input type="email" id="Email" name="Email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="Telefono">Teléfono:</label>
-                <input type="number" min="0" step="1" minlength="9" maxlength="15" id="Telefono" name="Telefono" required>
-            </div>
+            <label for="Documento">Documento/ ID:</label>
+            <input type="text" id="Documento" name="Documento" required>
+            
+            <label for="Email">Email:</label>
+            <input type="email" id="Email" name="Email" required>
+            
+            <label for="Telefono">Teléfono:</label>
+            <input type="number" min="0" step="1" minlength="9" maxlength="15" id="Telefono" name="Telefono" required>
 
             <button type="submit" class="submit-button">Guardar</button>
         </form>

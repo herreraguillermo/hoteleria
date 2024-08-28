@@ -103,6 +103,11 @@ class HuespedController extends Controller
     public function destroy($id)
     {
         $huesped = Huesped::findOrFail($id);
+
+        if ($huesped->reservas()->count() > 0) {
+            return redirect()->route('admin.huespedes.index')->with('error', 'No se puede eliminar el huésped porque tiene reservas activas.');
+        }
+
         $huesped->delete();
 
         return redirect()->route('admin.huespedes.index')->with('success', 'Huésped eliminado exitosamente.');
