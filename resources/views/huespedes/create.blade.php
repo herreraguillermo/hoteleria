@@ -27,7 +27,8 @@
             <input type="email" id="Email" name="Email" required>
             
             <label for="Telefono">Teléfono:</label>
-            <input type="number" min="0" step="1" minlength="9" maxlength="15" id="Telefono" name="Telefono" required>
+            <input type="tel" minlength="9" maxlength="15" id="Telefono" name="Telefono" required pattern="[0-9]{9,15}">
+
 
             <button type="submit" class="submit-button">Guardar</button>
         </form>
