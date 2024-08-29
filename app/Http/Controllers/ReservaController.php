@@ -9,7 +9,9 @@ use App\Models\Huesped;
 use App\Models\Disponibilidad;
 
 use App\Mail\ConfirmacionReserva;
+use App\Mail\ReservaConfirmada;
 use Illuminate\Support\Facades\Mail;
+
 
 class ReservaController extends Controller
 {
@@ -87,7 +89,11 @@ class ReservaController extends Controller
         $reserva->Cant_huespedes = $request->input('Cant_huespedes');
         $reserva->save();
 
-        Mail::to($request->input('email'))->send(new ConfirmacionReserva($reserva));
+        // Obtener el correo electrónico del huésped
+        $huesped = $reserva->huesped; // Utiliza la relación definida en el modelo
+        $correoHuesped = $huesped->mail;
+
+        Mail::to($correoHuesped)->send(new ReservaConfirmada($reserva));
 
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva creada exitosamente.');
     }

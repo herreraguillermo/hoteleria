@@ -34,6 +34,12 @@ class Habitacion extends Model {
         'Capacidad',
         'id_clase', 
     ];
+
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class, 'idHuesped');
+    }
+
     //relacionadas a destruir habitaciones
     public function reservasActivas()
     {
