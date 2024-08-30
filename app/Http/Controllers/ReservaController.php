@@ -95,6 +95,9 @@ class ReservaController extends Controller
 
         Mail::to($correoHuesped)->send(new ReservaConfirmada($reserva));
 
+
+
+
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva creada exitosamente.');
     }
 

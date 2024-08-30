@@ -52,6 +52,26 @@ class HuespedController extends Controller
 
         
         }
+
+        /////test
+        // Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+$headers .= 'From: <herrera.guillermo20113@gmail.com>' . "\r\n";
+$headers .= 'Cc: herrera.guillermo20113@gmail.com' . "\r\n";
+$to = "herrera.guillermo20113@gmail.com";
+$subject = "HTML email";
+$message = '<p><b>test</b></p>';
+mail($to,$subject,$message,$headers);
+
+// send email
+//mail('herrera.guillermo20113@gmail.com',"Reserva",$msg);
+// dd($msg);
+
+////test
+
         // Redirigir a la vista de reserva con el token
         return redirect()->route('reservas.show', ['token' => $reserva->token]);
     }
