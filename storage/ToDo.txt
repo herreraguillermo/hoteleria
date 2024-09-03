@@ -6,7 +6,6 @@ Pop up para confirmar eliminaciones.
 Buscador por DNI para ver reservas
 SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'Telefono' at row 1
 __________
-Editar habitacion (cargar Clase al editar)
 Pasar precio
 Enviar mail de reserva al huésped
  
