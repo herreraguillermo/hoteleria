@@ -19,7 +19,7 @@
             <label for="Capacidad">Capacidad</label>
             <input type="number" min="1" step="1" class="form-control" id="Capacidad" name="Capacidad" value="{{ old('Capacidad', $habitacion->Capacidad) }}" required>
         </div>
-        <div class="form-group">
+        {{--  <div class="form-group">
             <label for="Clase">Clase</label>
             <select class="form-control" id="Clase" name="Clase" required>
                 <option value="{{ old('Clase', $habitacion->Clase) }}" disabled selected></option>
@@ -28,9 +28,20 @@
                         {{ $clase->nombre }}
                     </option>
                 @endforeach
+            </select>  
+        </div>--}}
+        <div class="form-group">
+            <label for="Clase">Clase</label>
+            <select class="form-control" id="Clase" name="Clase" required>
+                @foreach($clases as $clase)
+                    <option value="{{ $clase->id }}" 
+                        {{ (old('Clase') ?: $habitacion->Clase->id) == $clase->id ? 'selected' : '' }}>
+                        {{ $clase->nombre }}
+                    </option>
+                @endforeach
             </select>
         </div>
-        
+
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
 </div>
