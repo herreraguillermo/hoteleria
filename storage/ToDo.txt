@@ -1,11 +1,3 @@
-Formulario Registro: Alinear
-
-Registro y Login - Traducir al castellano
-Detalle por habitación y ABM de tipo de habitación (Std, suite, deluxe,...)
-Pop up para confirmar eliminaciones.
-Buscador por DNI para ver reservas
-SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'Telefono' at row 1
-__________
 Pasar precio
-Enviar mail de reserva al huésped
+Armar el mail de reserva al huésped
  
