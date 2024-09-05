@@ -30,7 +30,7 @@ class Habitacion extends Model {
 
     protected $fillable = [
         'Numero',
-        'Precio',
+        /* 'Precio', */
         'Capacidad',
         'id_clase', 
     ];

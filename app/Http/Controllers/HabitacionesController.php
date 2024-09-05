@@ -106,13 +106,13 @@ class HabitacionesController extends Controller {
                     }
                 },
             ],
-            'Precio' => 'required|numeric',
+            /* 'Precio' => 'nullable|numeric', */
             'Capacidad' => 'required|integer',
             'Clase' => 'required|integer'
         ]);
 
         $habitacion = Habitacion::findOrFail($id);
-        $habitacion->update($request->only(['Numero', 'Precio', 'Capacidad', 'Clase']));
+        $habitacion->update($request->only(['Numero', /* 'Precio', */ 'Capacidad', 'Clase']));
 
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
     }

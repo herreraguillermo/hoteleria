@@ -49,7 +49,7 @@ class AdminHabitacionController extends Controller
                 }
             },
         ],
-        'Precio' => 'required|numeric',
+        /* 'Precio' => 'required|numeric', */
         'Capacidad' => 'required|integer',
         'Clase' => 'required|integer',
     ]);
@@ -57,7 +57,7 @@ class AdminHabitacionController extends Controller
     // Crear una nueva habitación si la validación pasa
     $habitacion = new Habitacion();
     $habitacion->Numero = $request->input('Numero');
-    $habitacion->Precio = $request->input('Precio');
+    /* $habitacion->Precio = $request->input('Precio') */;
     $habitacion->Capacidad = $request->input('Capacidad');
     $habitacion->id_clase = $request->input('Clase');
     $habitacion->save();
@@ -77,7 +77,7 @@ class AdminHabitacionController extends Controller
     {
         $request->validate([
             'Numero' => 'required',
-            'Precio' => 'required',
+            /* 'Precio' => 'required', */
             'Capacidad' => 'required',
             'Clase' => 'required',
         ]);

@@ -18,7 +18,9 @@
             @foreach ($habitaciones as $habitacion)
             <tr>
                 <td>{{ $habitacion->Numero }}</td>
-                <td>{{ $habitacion->Precio }}</td>
+                <td>@if (isset($habitacion->Clase->precio)) {{ $habitacion->Clase->precio }} US$
+                    @else 
+                    @endif</td>
                 <td>{{ $habitacion->Capacidad }}</td>
                 <td>
                     @if (isset($habitacion->Clase->nombre)) {{ $habitacion->Clase->nombre }}
