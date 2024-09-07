@@ -1,7 +1,0 @@
-Pasar precio:
-se puede crear una habitacion sin pedir el precio (esta comentado, y en la tabla se puede dejar nulo)
-y en el index de habitaciones te toma la de clases
-faltaria que en la vista del cliente se muestre los precios que vienen de clases, y no los de habitaciones.
-
-Armar el mail de reserva al huésped
- 

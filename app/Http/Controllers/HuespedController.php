@@ -63,17 +63,7 @@ $headers .= 'From: <herrera.guillermo20113@gmail.com>' . "\r\n";
 $headers .= 'Cc: herrera.guillermo20113@gmail.com' . "\r\n";
 $to = "herrera.guillermo20113@gmail.com";
 $subject = "Reserva confirmada";
-$message = '<p><b>test</b></p> 
-<h1>Reserva Confirmada</h1>
-    <p>Estimado '. $reserva->nombre.'</p>
-    <p>Tu reserva para el '. $reserva->fecha .' ha sido confirmada.</p>
-    <p>Detalles de la reserva:</p>
-    <ul>
-        <li>Nombre: '. $reserva->nombre .'</li>
-        <li>Fecha: '. $reserva->fecha .'</li>
-        <li>Hora: '. $reserva->hora .'</li>';
-
-;
+$message = view('emails.reserva_confirmada', compact('reserva', 'Huesped'))->render();
 mail($to,$subject,$message,$headers);
 
 // send email
