@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Models\Huesped;
 use App\Models\Reserva;
 use App\Models\Disponibilidad;
+use Carbon\Carbon;
 
 class HuespedController extends Controller
 {
@@ -39,6 +40,7 @@ class HuespedController extends Controller
         // Actualizar disponibilidad
         $start = new \DateTime($request->input('fechaInicio'));
         $end = new \DateTime($request->input('fechaFin'));
+        $diferenciaDias = Carbon::parse($request->input('fechaInicio'))->diffInDays(Carbon::parse($request->input('fechaFin')));
 
         $interval = new \DateInterval('P1D');
         $period = new \DatePeriod($start, $interval, $end);
@@ -58,12 +60,13 @@ class HuespedController extends Controller
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
+
 // More headers
 $headers .= 'From: <herrera.guillermo20113@gmail.com>' . "\r\n";
 $headers .= 'Cc: herrera.guillermo20113@gmail.com' . "\r\n";
 $to = "herrera.guillermo20113@gmail.com";
 $subject = "Reserva confirmada";
-$message = view('emails.reserva_confirmada', compact('reserva', 'Huesped'))->render();
+$message = view('emails.reserva_confirmada', compact('reserva', 'Huesped', 'diferenciaDias'))->render();
 mail($to,$subject,$message,$headers);
 
 // send email
