@@ -12,7 +12,6 @@ class HuespedController extends Controller
     {
         $idHabitacion = $request->input('idHabitacion');
         return view('Huespedes.create', compact('idHabitacion'));
-        
     }
 
     public function store(Request $request)
@@ -51,59 +50,39 @@ class HuespedController extends Controller
             $disponibilidad->Fecha = $date->format('Y-m-d');
             $disponibilidad->Disponible = false;
             $disponibilidad->save();
-
-        
         }
 
         /////test
         // Always set content-type when sending HTML email
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 
-// More headers
-$headers .= 'From: <herrera.guillermo20113@gmail.com>' . "\r\n";
-$headers .= 'Cc: herrera.guillermo20113@gmail.com' . "\r\n";
-$to = "herrera.guillermo20113@gmail.com";
-$subject = "Reserva confirmada";
-$message = view('emails.reserva_confirmada', compact('reserva', 'Huesped', 'diferenciaDias'))->render();
-mail($to,$subject,$message,$headers);
+        // More headers
+        $headers .= 'From: <herrera.guillermo20113@gmail.com>' . "\r\n";
+        $headers .= 'Cc: herrera.guillermo20113@gmail.com' . "\r\n";
+        $to = "herrera.guillermo20113@gmail.com";
+        $subject = "Reserva confirmada";
+        $message = view('emails.reserva_confirmada', compact('reserva', 'Huesped', 'diferenciaDias'))->render();
+        mail($to,$subject,$message,$headers);
 
-// send email
-//mail('herrera.guillermo20113@gmail.com',"Reserva",$msg);
-// dd($msg);
+        // send email
+        //mail('herrera.guillermo20113@gmail.com',"Reserva",$msg);
+        // dd($msg);
 
-////test
+        ////test
 
         // Redirigir a la vista de reserva con el token
         return redirect()->route('reservas.show', ['token' => $reserva->token]);
     }
 
-    //admin
+    // admin
     public function index()
     {
         $huespedes = Huesped::all();
         return view('admin.huespedes.index', compact('huespedes'));
     }
 
-    /* public function create()
-    {
-        return view('admin.huespedes.create');
-    } */
-
-    /* public function store(Request $request)
-    {
-        $huesped = new Huesped();
-        $huesped->Nombre = $request->input('Nombre');
-        $huesped->Documento = $request->input('Documento');
-        $huesped->Nacionalidad = $request->input('Nacionalidad');
-        $huesped->Email = $request->input('Email');
-        $huesped->Telefono = $request->input('Telefono');
-        $huesped->save();
-
-        return redirect()->route('admin.huespedes.index')->with('success', 'Huésped creado exitosamente.');
-    }
- */
     public function edit($id)
     {
         $huesped = Huesped::findOrFail($id);
@@ -135,4 +114,23 @@ mail($to,$subject,$message,$headers);
 
         return redirect()->route('admin.huespedes.index')->with('success', 'Huésped eliminado exitosamente.');
     }
+    
+    /* public function create()
+    {
+        return view('admin.huespedes.create');
+    } */
+
+    /* public function store(Request $request)
+    {
+        $huesped = new Huesped();
+        $huesped->Nombre = $request->input('Nombre');
+        $huesped->Documento = $request->input('Documento');
+        $huesped->Nacionalidad = $request->input('Nacionalidad');
+        $huesped->Email = $request->input('Email');
+        $huesped->Telefono = $request->input('Telefono');
+        $huesped->save();
+
+        return redirect()->route('admin.huespedes.index')->with('success', 'Huésped creado exitosamente.');
+    }
+    */
 }

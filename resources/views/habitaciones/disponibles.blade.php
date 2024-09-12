@@ -46,12 +46,10 @@
                     }
                     @endphp
                     
-                        <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion"
-                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ $habitacion->clase->descripcion }}"
-                        >
-                    
-                        {{--    --}}
-                    
+                    <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion"
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ $habitacion->clase->descripcion }}"
+                    >
+                
                 </div>
                 @endforeach
             </div>

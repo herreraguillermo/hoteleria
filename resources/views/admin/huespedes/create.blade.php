@@ -5,18 +5,16 @@
 <div class="container">
     <h1>Crear Huésped</h1>
 
-    
-
     <form id="huespedForm" action="{{ route('huesped.store') }}" method="POST">
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     
         @csrf
         <div>
@@ -56,7 +54,6 @@
             }
         });
     </script>
-    
     
 </div>
 @endsection

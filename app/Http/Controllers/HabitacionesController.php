@@ -24,7 +24,6 @@ class HabitacionesController extends Controller {
         $ocupantes = $request->input('ocupantes');
         $orden = $request->input('ordenm', 'asc'); // Obtenemos el orden, por defecto ascendente
 
-       
         // Convierte las fechas en instancias de Carbon
         $fechaCheckin = Carbon::parse($fechaInicio);
         $fechaCheckout = Carbon::parse($fechaFin);
@@ -32,7 +31,6 @@ class HabitacionesController extends Controller {
         // Calcula la diferencia en días
         $diferenciaDias = $fechaCheckin->diffInDays($fechaCheckout);
         
-
         // Buscar habitaciones que cumplan con la capacidad
         $habitaciones = Habitacion::where('Capacidad', '>=', $ocupantes)->get();
         $habitacionesDisponibles = [];
@@ -49,9 +47,6 @@ class HabitacionesController extends Controller {
                 $habitacionesDisponibles[] = $habitacion;
                 
             }
-
-            
-        
         }
 
         // Ordenar las habitaciones disponibles por precio
@@ -81,9 +76,7 @@ class HabitacionesController extends Controller {
     {
         return view('admin.habitaciones.create');
     }
-
     
-
     public function edit($id)
     {
         $habitacion = Habitacion::findOrFail($id);
@@ -116,5 +109,5 @@ class HabitacionesController extends Controller {
 
         return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación actualizada exitosamente.');
     }
-
+    
 }

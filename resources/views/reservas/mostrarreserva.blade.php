@@ -24,8 +24,6 @@
         <p><strong>Email:</strong> {{ $huesped->Email }}</p>
         <p><strong>Teléfono:</strong> {{ $huesped->Telefono }}</p>
 
-        
-
         <a href="{{ url('/') }}" class="back-link">Volver a la Página Principal</a>
     </div>
 

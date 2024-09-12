@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Reservas</h1>
 
-    <!-- Formulario de búsqueda -->
+    {{--  Formulario de búsqueda  --}}
     <form method="GET" action="{{ route('admin.reserva.index') }}">
         <input type="text" name="documento" value="{{ request('documento') }}" placeholder="Buscar por documento">
         <button type="submit">Buscar</button>
@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    <!-- Paginación -->
+    {{--  Paginación  --}}
     {{ $reservas->links() }}
 </div>
 

@@ -10,8 +10,6 @@ use App\Models\Clase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
-
 class AdminHabitacionController extends Controller
 {
     public function index(Request $request)
@@ -25,7 +23,6 @@ class AdminHabitacionController extends Controller
         /* $habitaciones = Habitacion::orderBy($sort, $direction)->get(); */
 
         return view('admin.habitaciones.index', compact('habitaciones', 'clases'));
-  
     }
     
     public function create()
@@ -35,35 +32,35 @@ class AdminHabitacionController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validar que el número de habitación no exista ya en la base de datos
-    $request->validate([
-        'Numero' => [
-            'required',
-            'numeric',
-            'min:0',
-            'integer',
-            function ($attribute, $value, $fail) {
-                if (Habitacion::where('Numero', $value)->exists()) {
-                    $fail('El número de habitación ya está en uso.');
-                }
-            },
-        ],
-        /* 'Precio' => 'required|numeric', */
-        'Capacidad' => 'required|integer',
-        'Clase' => 'required|integer',
-    ]);
+    {
+        // Validar que el número de habitación no exista ya en la base de datos
+        $request->validate([
+            'Numero' => [
+                'required',
+                'numeric',
+                'min:0',
+                'integer',
+                function ($attribute, $value, $fail) {
+                    if (Habitacion::where('Numero', $value)->exists()) {
+                        $fail('El número de habitación ya está en uso.');
+                    }
+                },
+            ],
+            /* 'Precio' => 'required|numeric', */
+            'Capacidad' => 'required|integer',
+            'Clase' => 'required|integer',
+        ]);
 
-    // Crear una nueva habitación si la validación pasa
-    $habitacion = new Habitacion();
-    $habitacion->Numero = $request->input('Numero');
-    /* $habitacion->Precio = $request->input('Precio') */;
-    $habitacion->Capacidad = $request->input('Capacidad');
-    $habitacion->id_clase = $request->input('Clase');
-    $habitacion->save();
+        // Crear una nueva habitación si la validación pasa
+        $habitacion = new Habitacion();
+        $habitacion->Numero = $request->input('Numero');
+        /* $habitacion->Precio = $request->input('Precio') */;
+        $habitacion->Capacidad = $request->input('Capacidad');
+        $habitacion->id_clase = $request->input('Clase');
+        $habitacion->save();
 
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
-}
+        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación creada exitosamente.');
+    }
 
     public function edit($id)
     {
@@ -90,27 +87,27 @@ class AdminHabitacionController extends Controller
     }
 
     public function destroy($idHabitacion)
-{
-    $habitacion = Habitacion::findOrFail($idHabitacion);
+    {
+        $habitacion = Habitacion::findOrFail($idHabitacion);
 
-    // Verificar si la habitación tiene reservas asociadas
-    if ($habitacion->reservasActivas()->count() > 0) {
-        return redirect()->route('admin.habitaciones.index')->with('error', 'No se puede eliminar la habitación porque tiene reservas activas.');
+        // Verificar si la habitación tiene reservas asociadas
+        if ($habitacion->reservasActivas()->count() > 0) {
+            return redirect()->route('admin.habitaciones.index')->with('error', 'No se puede eliminar la habitación porque tiene reservas activas.');
+        }
+
+        DB::transaction(function () use ($idHabitacion) {
+            // Eliminar reservas asociadas a la habitación
+            Reserva::where('idHabitacion', $idHabitacion)->delete();
+            
+            // Eliminar disponibilidad asociada a la habitación
+            Disponibilidad::where('idHabitacion', $idHabitacion)->delete();
+            
+            // Finalmente, eliminar la habitación
+            Habitacion::find($idHabitacion)->delete();
+        });
+
+        return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
     }
-
-    DB::transaction(function () use ($idHabitacion) {
-        // Eliminar reservas asociadas a la habitación
-        Reserva::where('idHabitacion', $idHabitacion)->delete();
-        
-        // Eliminar disponibilidad asociada a la habitación
-        Disponibilidad::where('idHabitacion', $idHabitacion)->delete();
-        
-        // Finalmente, eliminar la habitación
-        Habitacion::find($idHabitacion)->delete();
-    });
-
-    return redirect()->route('admin.habitaciones.index')->with('success', 'Habitación eliminada exitosamente.');
-}
 
 
     

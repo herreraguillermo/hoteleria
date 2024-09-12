@@ -39,10 +39,10 @@ class ReservaController extends Controller
     
     public function show($token)
     {
-    $reserva = Reserva::where('token', $token)->firstOrFail();
-    $huesped = Huesped::findOrFail($reserva->idHuesped);
+        $reserva = Reserva::where('token', $token)->firstOrFail();
+        $huesped = Huesped::findOrFail($reserva->idHuesped);
 
-    return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
+        return view('reservas.mostrarreserva', compact('reserva', 'huesped'));
     }
 
     //esto es nuevo para agregar admin
@@ -70,8 +70,6 @@ class ReservaController extends Controller
         return view('admin.reservas.index', compact('reservas', 'sort', 'order', 'documento'));
     }
 
-    
-
     public function create()
     {
         $habitaciones = Habitacion::all();
@@ -95,13 +93,10 @@ class ReservaController extends Controller
 
         Mail::to($correoHuesped)->send(new ReservaConfirmada($reserva));
 
-
-
-
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva creada exitosamente.');
     }
 
-    public function edit($id)//muestra la tabla en la vista edit
+    public function edit($id) // muestra la tabla en la vista edit
     {
         $reserva = Reserva::findOrFail($id);
         $huespedes = Huesped::all();
@@ -113,96 +108,95 @@ class ReservaController extends Controller
     }
     
     public function update(Request $request, $id)
-{
-    // Obtener la reserva actual
-    $reserva = Reserva::find($id);
+    {
+        // Obtener la reserva actual
+        $reserva = Reserva::find($id);
 
-    // Obtener los datos del formulario
-    $nuevaHabitacionId = $request->input('idHabitacion');
-    $nuevaFechaCheckin = $request->input('Fecha_checkin');
-    $nuevaFechaCheckout = $request->input('Fecha_checkout');
+        // Obtener los datos del formulario
+        $nuevaHabitacionId = $request->input('idHabitacion');
+        $nuevaFechaCheckin = $request->input('Fecha_checkin');
+        $nuevaFechaCheckout = $request->input('Fecha_checkout');
 
-    // Validar que la fecha de checkout no sea anterior a la fecha de checkin
-    if (strtotime($nuevaFechaCheckout) < strtotime($nuevaFechaCheckin)) {
-        return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
+        // Validar que la fecha de checkout no sea anterior a la fecha de checkin
+        if (strtotime($nuevaFechaCheckout) < strtotime($nuevaFechaCheckin)) {
+            return redirect()->back()->withErrors(['Fecha_checkout' => 'La fecha de checkout no puede ser anterior a la fecha de checkin.']);
+        }
+
+        // Obtener la habitación y las fechas antiguas
+        $habitacionActualId = $reserva->idHabitacion;
+        $fechaCheckinAntigua = $reserva->Fecha_checkin;
+        $fechaCheckoutAntigua = $reserva->Fecha_checkout;
+
+        // Marca la habitación antigua como disponible en las fechas antiguas
+        $this->marcarDisponibilidad($habitacionActualId, $fechaCheckinAntigua, $fechaCheckoutAntigua, true);
+
+        // Verifica si la nueva habitación está disponible en las nuevas fechas
+        if (!$this->esHabitacionDisponible($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout)) {
+            // Marca la habitación antigua como ocupada nuevamente si la nueva no está disponible
+            $this->marcarDisponibilidad($habitacionActualId, $fechaCheckinAntigua, $fechaCheckoutAntigua, false);
+            return redirect()->back()->withErrors(['error' => 'La habitación no está disponible en las fechas seleccionadas.']);
+        }
+
+        // Marca la nueva habitación como ocupada en las nuevas fechas
+        $this->marcarDisponibilidad($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout, false);
+
+        // Actualiza la reserva con la nueva habitación y fechas
+        $reserva->idHabitacion = $nuevaHabitacionId;
+        $reserva->Fecha_checkin = $nuevaFechaCheckin;
+        $reserva->Fecha_checkout = $nuevaFechaCheckout;
+        $reserva->save();
+
+        return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada correctamente');
     }
 
-    // Obtener la habitación y las fechas antiguas
-    $habitacionActualId = $reserva->idHabitacion;
-    $fechaCheckinAntigua = $reserva->Fecha_checkin;
-    $fechaCheckoutAntigua = $reserva->Fecha_checkout;
+    protected function esHabitacionDisponible($habitacionId, $fechaCheckin, $fechaCheckout)
+    {
+        $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout);
 
-    // Marca la habitación antigua como disponible en las fechas antiguas
-    $this->marcarDisponibilidad($habitacionActualId, $fechaCheckinAntigua, $fechaCheckoutAntigua, true);
+        foreach ($fechas as $fecha) {
+            $disponibilidad = Disponibilidad::where('idHabitacion', $habitacionId)
+                ->where('fecha', $fecha)
+                ->where('disponible', false)
+                ->exists();
 
-    // Verifica si la nueva habitación está disponible en las nuevas fechas
-    if (!$this->esHabitacionDisponible($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout)) {
-        // Marca la habitación antigua como ocupada nuevamente si la nueva no está disponible
-        $this->marcarDisponibilidad($habitacionActualId, $fechaCheckinAntigua, $fechaCheckoutAntigua, false);
-        return redirect()->back()->withErrors(['error' => 'La habitación no está disponible en las fechas seleccionadas.']);
+            if ($disponibilidad) {
+                return false; // Si alguna fecha no está disponible, la habitación no está disponible
+            }
+        }
+
+        return true; // La habitación está disponible en todas las fechas
     }
 
-    // Marca la nueva habitación como ocupada en las nuevas fechas
-    $this->marcarDisponibilidad($nuevaHabitacionId, $nuevaFechaCheckin, $nuevaFechaCheckout, false);
+    protected function marcarDisponibilidad($habitacionId, $fechaCheckin, $fechaCheckout, $disponible)
+    {
+        $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout, $disponible);
 
-    // Actualiza la reserva con la nueva habitación y fechas
-    $reserva->idHabitacion = $nuevaHabitacionId;
-    $reserva->Fecha_checkin = $nuevaFechaCheckin;
-    $reserva->Fecha_checkout = $nuevaFechaCheckout;
-    $reserva->save();
-
-    return redirect()->route('admin.reservas.index')->with('success', 'Reserva actualizada correctamente');
-}
-
-protected function esHabitacionDisponible($habitacionId, $fechaCheckin, $fechaCheckout)
-{
-    $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout);
-
-    foreach ($fechas as $fecha) {
-        $disponibilidad = Disponibilidad::where('idHabitacion', $habitacionId)
-            ->where('fecha', $fecha)
-            ->where('disponible', false)
-            ->exists();
-
-        if ($disponibilidad) {
-            return false; // Si alguna fecha no está disponible, la habitación no está disponible
+        foreach ($fechas as $fecha) {
+            Disponibilidad::updateOrCreate(
+                ['idHabitacion' => $habitacionId, 'fecha' => $fecha],
+                ['disponible' => $disponible]
+            );
         }
     }
 
-    return true; // La habitación está disponible en todas las fechas
-}
+    protected function generarRangoFechas($fechaInicio, $fechaFin, $disponible = true)
+    {
+        $fechas = [];
+        $inicio = \Carbon\Carbon::parse($fechaInicio);
+        $fin = \Carbon\Carbon::parse($fechaFin);
 
-protected function marcarDisponibilidad($habitacionId, $fechaCheckin, $fechaCheckout, $disponible)
-{
-    $fechas = $this->generarRangoFechas($fechaCheckin, $fechaCheckout, $disponible);
+        // Si es una fecha de checkout, ajusta la fecha de fin
+        if (!$disponible) {
+            $fin->subDay();
+        }
 
-    foreach ($fechas as $fecha) {
-        Disponibilidad::updateOrCreate(
-            ['idHabitacion' => $habitacionId, 'fecha' => $fecha],
-            ['disponible' => $disponible]
-        );
+        while ($inicio->lte($fin)) {
+            $fechas[] = $inicio->format('Y-m-d');
+            $inicio->addDay();
+        }
+
+        return $fechas;
     }
-}
-
-protected function generarRangoFechas($fechaInicio, $fechaFin, $disponible = true)
-{
-    $fechas = [];
-    $inicio = \Carbon\Carbon::parse($fechaInicio);
-    $fin = \Carbon\Carbon::parse($fechaFin);
-
-    // Si es una fecha de checkout, ajusta la fecha de fin
-    if (!$disponible) {
-        $fin->subDay();
-    }
-
-    while ($inicio->lte($fin)) {
-        $fechas[] = $inicio->format('Y-m-d');
-        $inicio->addDay();
-    }
-
-    return $fechas;
-}
-
 
     public function destroy($id)
     {
@@ -224,5 +218,5 @@ protected function generarRangoFechas($fechaInicio, $fechaFin, $disponible = tru
 
         return redirect()->route('admin.reservas.index')->with('success', 'Reserva eliminada exitosamente.');
     }
-    
+
 }
