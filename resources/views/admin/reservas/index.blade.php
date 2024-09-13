@@ -46,4 +46,6 @@
     {{ $reservas->links() }}
 </div>
 
+<br><br><br>
+
 @endsection

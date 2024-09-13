@@ -77,10 +77,23 @@ class HuespedController extends Controller
     }
 
     // admin
-    public function index()
+    public function index(Request $request)
     {
-        $huespedes = Huesped::all();
-        return view('admin.huespedes.index', compact('huespedes'));
+        $nombre = $request->input('nombre'); // Obtener el valor del filtro
+        $sort = $request->get('sort', 'documento'); // Columna de ordenamiento por defecto
+        $order = $request->get('order', 'asc'); // Orden por defecto
+
+        // Crear una consulta base
+        $query = Huesped::query();
+        // Aplicar el filtro con nombre
+        if ($nombre) {
+            $query->whereHas('huesped', function($query) use ($nombre) {
+                $query->where('Nombre', 'like', "%{$nombre}%");
+            });
+        }
+
+        $huespedes = $query->orderBy($sort, $order)->paginate(10);
+        return view('admin.huespedes.index', compact('huespedes','sort','order','nombre'));
     }
 
     public function edit($id)

@@ -19,4 +19,8 @@ use hasfactory;
     {
         return $this->hasMany(Reserva::class, 'idHuesped');
     }
+    public function huesped()
+    {
+        return $this->belongsTo(Huesped::class, 'idHuesped');
+    }
 }

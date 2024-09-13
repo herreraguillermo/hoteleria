@@ -4,6 +4,12 @@
 <div class="container">
     <h1>Huéspedes</h1>
     {{--  <a href="{{ route('admin.huespedes.create') }}" class="btn btn-primary">Agregar Huésped</a>  --}}
+    {{--  Formulario de búsqueda  --}}
+    <form method="GET" action="{{ route('admin.huespedes.index') }}">
+        <input type="text" name="nombre" value="{{ request('nombre') }}" placeholder="Buscar por nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
@@ -35,5 +41,7 @@
             @endforeach
         </tbody>
     </table>
+    {{--  Paginación  --}}
+    {{ $huespedes->links() }}
 </div>
 @endsection
