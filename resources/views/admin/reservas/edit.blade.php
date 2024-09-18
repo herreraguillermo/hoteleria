@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Editar Reserva</h1>
     <p>Para el huesped: 
-        {{ $huespedes->first()->Nombre }} - {{ $huespedes->first()->Email }}
+        {{ $reserva->huesped->Nombre }} - {{ $reserva->huesped->Email }}
     </p>
     
     <form action="{{ route('admin.reservas.update', $reserva->idReserva) }}" onsubmit="return validateDates()" method="POST">

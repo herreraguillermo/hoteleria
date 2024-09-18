@@ -15,7 +15,7 @@
         <li>Nombre: {{ $Huesped->Nombre }}</li>
         <li>Fecha de check-in: {{ $reserva->Fecha_checkin }}</li>
         <li>Fecha de check-out: {{ $reserva->Fecha_checkout }}</li>
-        <li>Habitación: {{ $reserva->idHabitacion }}</li>
+        <li>Habitación: {{ $reserva->habitacion->Numero }}</li>
         <li>Cantidad de huéspedes: {{ $reserva->Cant_huespedes }}</li>
         <li>Precio por día: {{ $reserva->habitacion->Clase->precio}} US$</li>
         <li>Precio total:  <strong>{{$diferenciaDias * $reserva->habitacion->Clase->precio}} US$</strong></li>
