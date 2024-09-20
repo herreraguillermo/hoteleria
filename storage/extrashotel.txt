@@ -1,0 +1,8 @@
+atributo imagen desde la admin/clase;
+medios de pago tras views/reservas/creaate;
+admin/reservas/create y huespedes/create de ser posible;
+que aparezcan las habitaciones al cliente por clases(no individualmente);
+cambiar moneda;
+version en ingles;
+crear codigo de reserva, el cual se envie al mail;
+crear el algoritmo que varíe el precio según la cantidad de ocupantes;
