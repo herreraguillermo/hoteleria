@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Clase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class ClaseController extends Controller
 {
@@ -24,12 +26,18 @@ class ClaseController extends Controller
         $request->validate([
             'precio' => 'required|numeric',
             'nombre' => 'required|string',
+            'imagen' => 'nullable',/* |image|mimes:jpg,jpeg,png|max:2048 */
         ]);
     
-        // Crear una nueva habitación si la validación pasa
         $clase = new Clase();
         $clase->Precio = $request->input('precio');
         $clase->Nombre = $request->input('nombre');
+        if ($request->hasFile('imagen')) {
+            dd($request->file('imagen')->getMimeType());
+            $imageName = time().'.'.$request->imagen->extension();
+            $request->imagen->move(public_path('images/clases'), $imageName);
+            $clase->imagen = $imageName;
+        }
         $clase->descripcion = $request->input('descripcion');
         $clase->save();
     
@@ -52,6 +60,16 @@ class ClaseController extends Controller
         $clase = clase::findOrFail($id);
         $clase->nombre = $request->input('nombre');
         $clase->precio = $request->input('precio');
+        if ($request->hasFile('imagen')) {
+            // Borrar la imagen anterior si existe
+            if ($clase->imagen) {
+                File::delete(public_path('images/clases/'.$clase->imagen));
+            }
+    
+            $imageName = time().'.'.$request->imagen->extension();
+            $request->imagen->move(public_path('images/clases'), $imageName);
+            $clase->imagen = $imageName;
+        }
         $clase->descripcion = $request->input('descripcion');
         $clase->save();
 

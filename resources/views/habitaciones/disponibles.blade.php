@@ -30,23 +30,26 @@
                             <button type="submit" class="submit-button">Reservar</button>
                         </form>
                     </div>
-
                     @php
-                    $imagen = 'default.jpg'; // Imagen por defecto en caso de que la clase no se encuentre
-                    switch (strtolower($habitacion->Clase->nombre)) {
-                        case 'standard':
-                            $imagen = 'standard.jpg';
-                            break;
-                        case 'deluxe':
-                            $imagen = 'deluxe.jpg';
-                            break;
-                        case 'suite':
-                            $imagen = 'suite.jpg';
-                            break;
-                    }
-                    @endphp
+                        $imagen = $habitacion->Clase->imagen ?? 'default.jpg'; // Usa la imagen de la clase o la imagen por defecto
+                        switch (strtolower($habitacion->Clase->nombre)) {
+                            case 'standard':
+                                $imagen = 'standard.jpg';
+                                break;
+                            case 'deluxe':
+                                $imagen = 'deluxe.jpg';
+                                break;
+                            case 'suite':
+                                $imagen = 'suite.jpg';
+                                break;
+                        }
+                        @endphp
+                    {{--  <img src="{{ asset('images/clases/' . $imagen) }}" alt="Imagen de la habitación">  --}}
+                     
+                
                     
-                    <img src="{{ asset('images/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion"
+                    
+                    <img src="{{ asset('images/clases/' . $imagen) }}" alt="{{ $habitacion->Clase }}" class="imagen-habitacion"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ $habitacion->clase->descripcion }}"
                     >
                 

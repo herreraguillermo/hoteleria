@@ -14,6 +14,10 @@
             <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
         <div class="form-group">
+            <label for="imagen">Subir imagen</label>
+            <input type="file" name="imagen" id="imagen" class="form-control">
+        </div>
+        <div class="form-group">
             <label for="clase">Descripción</label>
             <input type="text" class="form-control" id="descripcion" name="descripcion" required>
         </div>
