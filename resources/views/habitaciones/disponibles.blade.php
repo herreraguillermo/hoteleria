@@ -8,6 +8,19 @@
 <body>
     <div class="container">
         <h1 class="frente">Habitaciones Disponibles</h1>
+        <form action="{{ route('habitaciones.disponibles') }}" method="GET" class="ordenar-precio-form">
+            @csrf
+            <label for="orden">Ordenar por precio:</label>
+            <select name="orden" id="orden" onchange="this.form.submit()">
+                <option value="asc" {{ request('orden') == 'asc' ? 'selected' : '' }}>De más barato a más caro</option>
+                <option value="desc" {{ request('orden') == 'desc' ? 'selected' : '' }}>De más caro a más barato</option>
+            </select>
+            
+            <!-- Pasar los parámetros ya existentes para conservar la búsqueda -->
+            <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
+            <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
+            <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
+        </form>
         @if (count($habitaciones) > 0)
             <div class="habitaciones-lista">
                 @foreach ($habitaciones as $habitacion)

@@ -22,12 +22,21 @@ class HabitacionesController extends Controller {
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
         $ocupantes = $request->input('ocupantes');
-        $orden = $request->input('ordenm', 'asc'); // Obtenemos el orden, por defecto ascendente
+        $orden = $request->input('orden', 'asc'); // Obtenemos el orden, por defecto ascendente
+        // Consulta de habitaciones disponibles con el criterio de ordenación aplicado
+        // Consulta de habitaciones disponibles con la unión de la tabla 'clases'
+        $habitaciones = Habitacion::select('habitaciones.*')
+        ->where('habitaciones.Capacidad', '>=', $ocupantes)
+        ->join('clases', 'habitaciones.id_clase', '=', 'clases.id')
+        
+        ->orderBy('clases.precio', $orden) // Ordenar por precio de la clase
+        ->get();
 
+            
+       
         // Convierte las fechas en instancias de Carbon
         $fechaCheckin = Carbon::parse($fechaInicio);
         $fechaCheckout = Carbon::parse($fechaFin);
-
         // Calcula la diferencia en días
         $diferenciaDias = $fechaCheckin->diffInDays($fechaCheckout);
         
