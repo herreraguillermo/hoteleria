@@ -43,20 +43,20 @@ class HabitacionesController extends Controller {
                 ->exists();
                 
             if (!$noDisponible) {
-                $habitacion->precioTotal = $diferenciaDias * $habitacion->Precio;
+                // Asegúrate de que 'precioTotal' se asigne correctamente
+                $habitacion->precioTotal = $diferenciaDias * $habitacion->Clase->precio; 
                 $habitacionesDisponibles[] = $habitacion;
-                
             }
         }
-
+        
         // Ordenar las habitaciones disponibles por precio
         usort($habitacionesDisponibles, function($a, $b) use ($orden) {
-            if ($orden === 'asc') {
-                return $a->Precio <=> $b->Precio;
-            } else {
-                return $b->Precio <=> $a->Precio;
+            if ($a->precioTotal == $b->precioTotal) { // Asegúrate de usar el atributo correcto
+                return 0;
             }
+            return ($orden === 'asc') ? ($a->precioTotal < $b->precioTotal ? -1 : 1) : ($a->precioTotal > $b->precioTotal ? -1 : 1);
         });
+        
 
         return view('habitaciones.disponibles', [
             'habitaciones' => $habitacionesDisponibles, 

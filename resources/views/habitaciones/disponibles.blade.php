@@ -18,9 +18,7 @@
                         <p> {{ $habitacion->Clase->nombre}} {{$habitacion->Numero }}</p>
                         <p>Precio total:  {{$diferenciaDias * $habitacion->Clase->precio}} US$</p>
                         
-                        {{--  <p><strong>Precio total:</strong> {{ $habitacion->precioTotal }} US$ </p>  --}}
                         <p>Capacidad: {{ $habitacion->Capacidad }}</p>
-                        {{--  <p>{{$habitacion->clase->descripcion}}</p>  --}}
                         <form action="{{ route('Huespedes.create') }}" method="GET">
                             @csrf
                             <input type="hidden" name="idHabitacion" value="{{ $habitacion->idHabitacion }}">
