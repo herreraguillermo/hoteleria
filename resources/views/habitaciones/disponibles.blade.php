@@ -10,13 +10,24 @@
         <h1 class="frente">Habitaciones Disponibles</h1>
         <form action="{{ route('habitaciones.disponibles') }}" method="GET" class="ordenar-precio-form">
             @csrf
-            <label for="orden">Ordenar por precio:</label>
+            <label for="orden">Precio:</label>
             <select name="orden" id="orden" onchange="this.form.submit()">
-                <option value="asc" {{ request('orden') == 'asc' ? 'selected' : '' }}>De más barato a más caro</option>
-                <option value="desc" {{ request('orden') == 'desc' ? 'selected' : '' }}>De más caro a más barato</option>
+                <option value="asc" {{ request('orden') == 'asc' ? 'selected' : '' }}>De menor a mayor</option>
+                <option value="desc" {{ request('orden') == 'desc' ? 'selected' : '' }}>De mayor a menor</option>
             </select>
             
             <!-- Pasar los parámetros ya existentes para conservar la búsqueda -->
+            <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
+            <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
+            <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
+        </form>
+        <!-- Formulario para cambiar moneda -->
+        <form method="GET" action="{{ route('habitaciones.disponibles') }}">
+            <label for="moneda">Mostrar precios en:</label>
+            <select name="moneda" id="moneda" onchange="this.form.submit()">
+                <option value="USD" {{ request('moneda') == 'USD' ? 'selected' : '' }}>Dólares (USD)</option>
+                <option value="ARS" {{ request('moneda') == 'ARS' ? 'selected' : '' }}>Pesos Argentinos (ARS)</option>
+            </select>
             <input type="hidden" name="fechaInicio" value="{{ request('fechaInicio') }}">
             <input type="hidden" name="fechaFin" value="{{ request('fechaFin') }}">
             <input type="hidden" name="ocupantes" value="{{ request('ocupantes') }}">
@@ -26,10 +37,20 @@
                 @foreach ($habitaciones as $habitacion)
                 <div class="habitacion" >
                     <div class="habitacion-info">
+                        
+                        @php
+                            // Conversión de precio
+                            $precioPorNoche = $habitacion->Clase->precio;
+                            $moneda = request('moneda', 'USD'); // USD por defecto
+                            $tasaCambio = 1200; // Ejemplo de tasa de cambio. Ajustar según sea necesario.
+                            if ($moneda == 'ARS') {
+                                $precioPorNoche *= $tasaCambio; // Convertir a pesos argentinos
+                            }
+                        @endphp
 
-                        <h3>Por noche: {{ $habitacion->Clase->precio }} US$ </h3>
-                        <p> {{ $habitacion->Clase->nombre}} {{$habitacion->Numero }}</p>
-                        <p>Precio total:  {{$diferenciaDias * $habitacion->Clase->precio}} US$</p>
+                        <h3>Por noche: {{ number_format($precioPorNoche, 2) }} {{ $moneda }}</h3>
+                        <p>{{ $habitacion->Clase->nombre }} {{ $habitacion->Numero }}</p>
+                        <p>Precio total: {{ number_format($diferenciaDias * $precioPorNoche, 2) }} {{ $moneda }}</p>
                         
                         <p>Capacidad: {{ $habitacion->Capacidad }}</p>
                         <form action="{{ route('Huespedes.create') }}" method="GET">

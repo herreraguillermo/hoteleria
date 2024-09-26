@@ -22,6 +22,7 @@ class HabitacionesController extends Controller {
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
         $ocupantes = $request->input('ocupantes');
+        $moneda = $request->input('moneda', 'USD'); // USD por defecto
         $orden = $request->input('orden', 'asc'); // Obtenemos el orden, por defecto ascendente
         // Consulta de habitaciones disponibles con el criterio de ordenación aplicado
         // Consulta de habitaciones disponibles con la unión de la tabla 'clases'
@@ -70,6 +71,7 @@ class HabitacionesController extends Controller {
         return view('habitaciones.disponibles', [
             'habitaciones' => $habitacionesDisponibles, 
             'diferenciaDias' => $diferenciaDias,
+            'moneda',
         ]);
     }
 
